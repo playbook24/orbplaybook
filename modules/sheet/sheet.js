@@ -411,7 +411,6 @@ const SheetStudio = {
         });
     },
 
-   // --- CORRECTION V4.2 : Aperçu NET et sans couleur noire pour le Studio ---
    async generateSceneImage(playbookData, sceneIndex) {
         return new Promise((resolve) => {
             const originalState = window.ORB.playbookState;
@@ -426,7 +425,6 @@ const SheetStudio = {
             const drawW = isHalf ? 1500 : 2800;
             const drawH = isHalf ? 1400 : 1500;
             
-            // Échelle de référence pour ne pas avoir de joueurs trop gros ou trop petits
             const baseW = isHalf ? 450 : 840;
             const baseH = isHalf ? 420 : 450;
 
@@ -461,7 +459,7 @@ const SheetStudio = {
                     <g class="court-lines" stroke="${secondaryColor}" fill="none" transform="translate(75, 15.75)">
                         <line x1="-9" y1="-3.75" x2="9" y2="-3.75" stroke-width="0.8"/>
                         <circle cx="0" cy="0" r="2.25" stroke-width="0.5"/>
-                        <path d="M -12.5 0 A 12.5 12.5 0 0 1 12.5 0" stroke-width="0.6"/>
+                        <path d="M -12.5 0 A 12.5 12.5 0 0 0 12.5 0" stroke-width="0.6"/>
                     </g>
                     <path class="court-lines" d="M 57 140 A 18 18 0 0 1 93 140" stroke="${secondaryColor}" stroke-width="0.6" fill="none"/>
                 `;
@@ -480,10 +478,6 @@ const SheetStudio = {
             }
 
             let xml = new XMLSerializer().serializeToString(courtSvg);
-            xml = xml.replace(/var\(--color-primary\)/gi, primaryColor);
-            if (isCrab) {
-                xml = xml.replace(/#212121/gi, secondaryColor);
-            }
 
             const img = new Image();
             img.onload = () => {
@@ -494,7 +488,6 @@ const SheetStudio = {
                 drawC.height = drawH;
                 const dCtx = drawC.getContext('2d');
                 
-                // MULTIPLICATEUR PARFAIT
                 dCtx.scale(drawW / baseW, drawH / baseH);
                 drawC.getBoundingClientRect = () => ({ width: baseW, height: baseH, left: 0, top: 0 });
 
