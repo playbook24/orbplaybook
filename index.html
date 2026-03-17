@@ -132,6 +132,7 @@
                             playbooks: playbooks,
                             trainingPlans: await orbDB.getAllPlans(),
                             tags: await orbDB.getAllTags(),
+                            folders: await orbDB.getAllFolders(),
                             calendarEvents: await orbDB.getAllCalendarEvents(),
                             players: await orbDB.getAllPlayers(),
                             teams: await orbDB.getAllTeams(),
@@ -178,7 +179,7 @@
                         let parsedData = JSON.parse(event.target.result);
                         
                         let dataToImport = {
-                            playbooks: [], trainingPlans: [], tags: [], calendarEvents: [], players: [], teams: [], sheets: [], sheetTags: []
+                            playbooks: [], trainingPlans: [], tags: [], folders: [], calendarEvents: [], players: [], teams: [], sheets: [], sheetTags: []
                         };
 
                         if (Array.isArray(parsedData)) {
@@ -187,6 +188,7 @@
                             dataToImport.playbooks = parsedData.playbooks || (parsedData.data && parsedData.data.playbooks) || [];
                             dataToImport.trainingPlans = parsedData.trainingPlans || (parsedData.data && parsedData.data.trainingPlans) || [];
                             dataToImport.tags = parsedData.tags || (parsedData.data && parsedData.data.tags) || [];
+                            dataToImport.folders = parsedData.folders || (parsedData.data && parsedData.data.folders) || [];
                             dataToImport.calendarEvents = parsedData.calendarEvents || (parsedData.data && parsedData.data.calendarEvents) || [];
                             dataToImport.players = parsedData.players || (parsedData.data && parsedData.data.players) || [];
                             dataToImport.teams = parsedData.teams || (parsedData.data && parsedData.data.teams) || [];
@@ -222,7 +224,7 @@
                         // NOUVEAU : On s'assure que la connexion à la base de données est bien active
                         if (!orbDB.db) await orbDB.open();
 
-                        const tx = orbDB.db.transaction(['playbooks', 'trainingPlans', 'tags', 'calendarEvents', 'players', 'teams', 'sheets', 'sheetTags'], 'readwrite');
+                        const tx = orbDB.db.transaction(['playbooks', 'trainingPlans', 'tags', 'folders', 'calendarEvents', 'players', 'teams', 'sheets', 'sheetTags'], 'readwrite');
                         
                         const clearAndAdd = (storeName, items) => {
                             const store = tx.objectStore(storeName);
@@ -233,6 +235,7 @@
                         clearAndAdd('playbooks', dataToImport.playbooks);
                         clearAndAdd('trainingPlans', dataToImport.trainingPlans);
                         clearAndAdd('tags', dataToImport.tags);
+                        clearAndAdd('folders', dataToImport.folders);
                         clearAndAdd('calendarEvents', dataToImport.calendarEvents);
                         clearAndAdd('players', dataToImport.players);
                         clearAndAdd('teams', dataToImport.teams);

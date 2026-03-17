@@ -187,6 +187,45 @@ document.addEventListener('DOMContentLoaded', async () => {
     // =========================================================
     // 6. AUTO-LOAD DEPUIS LE DASHBOARD (index.html)
     // =========================================================
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('bulkUpdate') === '1') {
+        setTimeout(async () => {
+            try {
+                const allPlaybooks = await orbDB.getAllPlaybooks(true);
+                for (let pb of allPlaybooks) {
+                    if (window.ORB.normalizePlaybook) {
+                        window.ORB.playbookState = window.ORB.normalizePlaybook(pb.playbookData);
+                    } else {
+                        window.ORB.playbookState = pb.playbookData;
+                    }
+                    window.ORB.playbookState.activeSceneIndex = 0;
+                    const savedCourtType = window.ORB.playbookState.courtType || 'full';
+                    window.ORB.playbookState.courtType = savedCourtType;
+                    if (window.ORB.ui && typeof window.ORB.ui.setView === 'function') {
+                        const tempCommit = window.ORB.commitState;
+                        window.ORB.commitState = function(){};
+                        window.ORB.ui.setView(savedCourtType);
+                        window.ORB.commitState = tempCommit;
+                    }
+                    window.ORB.renderer.redrawCanvas();
+                    
+                    const newPreview = await window.ORB.ui.getSnapshot(false, true);
+                    const r = { id: pb.id, name: pb.name, playbookData: pb.playbookData, preview: newPreview, createdAt: pb.createdAt, tagIds: pb.tagIds, folderIds: pb.folderIds };
+                    await new Promise(res => {
+                        const req = orbDB.db.transaction(['playbooks'], 'readwrite').objectStore('playbooks').put(r);
+                        req.onsuccess = res;
+                    });
+                }
+                alert("✅ Tous les aperçus ont été regénérés avec succès !");
+            } catch (e) {
+                console.error(e);
+                alert("❌ Erreur pendant la mise à jour massive.");
+            }
+            window.location.href = '../library/library.html';
+        }, 800);
+        return;
+    }
+
     const pendingLoadId = localStorage.getItem('orb_pending_load_id');
     if (pendingLoadId) {
         localStorage.removeItem('orb_pending_load_id'); 

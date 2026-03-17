@@ -63,8 +63,8 @@ class ORBDatabase {
             try {
                 const existing = await this.getPlaybook(id, true);
                 if (existing) { 
-                    existingTagIds = existing.tagIds || []; 
-                    existingFolderIds = existing.folderIds || []; 
+                    existingTagIds = data.tagIds !== undefined ? data.tagIds : (existing.tagIds || []); 
+                    existingFolderIds = data.folderIds !== undefined ? data.folderIds : (existing.folderIds || []); 
                     createdAt = existing.createdAt || createdAt; 
                 }
             } catch(e) {}

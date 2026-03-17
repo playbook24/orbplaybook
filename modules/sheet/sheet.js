@@ -422,8 +422,8 @@ const SheetStudio = {
 
             const isHalf = playbookData.courtType === 'half';
             
-            const drawW = isHalf ? 1500 : 2800;
-            const drawH = isHalf ? 1400 : 1500;
+            const drawW = isHalf ? 450 : 840;
+            const drawH = isHalf ? 420 : 450;
             
             const baseW = isHalf ? 450 : 840;
             const baseH = isHalf ? 420 : 450;
@@ -478,6 +478,10 @@ const SheetStudio = {
             }
 
             let xml = new XMLSerializer().serializeToString(courtSvg);
+            
+            xml = xml.replace(/stroke-width="0\.6"/g, 'stroke-width="1.0"');
+            xml = xml.replace(/stroke-width="0\.5"/g, 'stroke-width="0.9"');
+            xml = xml.replace(/stroke-width="0\.8"/g, 'stroke-width="1.3"');
 
             const img = new Image();
             img.onload = () => {
@@ -494,7 +498,9 @@ const SheetStudio = {
                 window.ORB.canvas = drawC;
                 window.ORB.ctx = dCtx;
 
+                window.ORB.renderer.isThumbnailMode = true;
                 window.ORB.renderer.redrawCanvas(); 
+                window.ORB.renderer.isThumbnailMode = false;
 
                 tCtx.drawImage(drawC, 0, 0, drawW, drawH); 
                 

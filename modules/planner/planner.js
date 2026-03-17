@@ -133,10 +133,12 @@ const PlannerModule = {
         const allItem = document.createElement('div');
         allItem.className = 'selector-item';
         allItem.innerHTML = `
-            <div style="width:70px; height:50px; background:rgba(255,255,255,0.05); border-radius:6px; display:flex; align-items:center; justify-content:center;">${this.iconAll}</div>
+            <div class="preview-placeholder">
+                <div style="background:rgba(0,0,0,0.2); width:50px; height:50px; border-radius:8px; display:flex; align-items:center; justify-content:center;">${this.iconAll}</div>
+            </div>
             <div class="selector-item-content">
                 <span class="selector-item-title">Tous les schémas</span>
-                <span class="selector-item-add" style="color:var(--color-text); opacity:0.6; text-transform:none;">${this.allPlaybooks.length} exos</span>
+                <span class="selector-item-add">${this.allPlaybooks.length} exos</span>
             </div>`;
         allItem.onclick = () => { this.libViewMode = 'PLAYBOOKS'; this.currentFolderId = 'ALL'; this.renderLibView(); };
         this.selectorList.appendChild(allItem);
@@ -147,10 +149,12 @@ const PlannerModule = {
             const item = document.createElement('div');
             item.className = 'selector-item';
             item.innerHTML = `
-                <div style="width:70px; height:50px; background:rgba(255,255,255,0.05); border-radius:6px; display:flex; align-items:center; justify-content:center;">${this.iconFolder}</div>
+                <div class="preview-placeholder">
+                    <div style="background:rgba(0,0,0,0.2); width:50px; height:50px; border-radius:8px; display:flex; align-items:center; justify-content:center;">${this.iconFolder}</div>
+                </div>
                 <div class="selector-item-content">
                     <span class="selector-item-title">${folder.name}</span>
-                    <span class="selector-item-add" style="color:var(--color-text); opacity:0.6; text-transform:none;">${count} exos</span>
+                    <span class="selector-item-add">${count} exos</span>
                 </div>`;
             item.onclick = () => { this.libViewMode = 'PLAYBOOKS'; this.currentFolderId = folder.id; this.libTitle.textContent = folder.name; this.renderLibView(); };
             this.selectorList.appendChild(item);
@@ -209,10 +213,10 @@ const PlannerModule = {
             }
 
             item.innerHTML = `
-                ${previewUrl ? `<img src="${previewUrl}" alt="Aperçu">` : `<div style="width:80px; height:50px; background:var(--color-background); border:1px solid var(--color-border); border-radius:6px;"></div>`}
+                ${previewUrl ? `<img src="${previewUrl}" alt="Aperçu">` : `<div class="preview-placeholder"><span style="color:#000; font-weight:bold;">Aperçu</span></div>`}
                 <div class="selector-item-content">
                     <span class="selector-item-title">${pb.name || 'Sans nom'}</span>
-                    <span class="selector-item-add">+ Ajouter à la séance</span>
+                    <span class="selector-item-add">+ Ajouter</span>
                 </div>
             `;
             item.onclick = () => {
@@ -254,7 +258,7 @@ const PlannerModule = {
                 <div class="plan-item-left">
                     <span class="drag-handle" title="Maintenir pour déplacer">⣿</span>
                     <span style="font-weight:900; color:var(--color-primary); width:20px;">${index + 1}.</span>
-                    ${previewUrl ? `<img src="${previewUrl}">` : `<div style="width:70px; height:40px; background:var(--color-background); border-radius:4px;"></div>`}
+                    ${previewUrl ? `<img src="${previewUrl}">` : `<div style="width:140px; height:90px; background:var(--color-background); border-radius:6px;"></div>`}
                     <span style="font-weight:bold; font-size:1.1em;">${pb.name || 'Sans nom'}</span>
                 </div>
                 <button class="btn-icon danger" onclick="PlannerModule.removeExo(${index})" style="padding:8px;" title="Retirer">

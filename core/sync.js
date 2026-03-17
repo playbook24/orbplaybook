@@ -224,17 +224,13 @@ const ORBSync = {
                 sheetTags: await orbDB.getAllSheetTags()
             };
 
-            const file = new Blob([JSON.stringify(backupData)], { type: 'application/json' });
-            
-            const metadata = { name: 'orb_tactical_sync.json' };
-            const form = new FormData();
-            form.append('metadata', new Blob([JSON.stringify(metadata)], { type: 'application/json' }));
-            form.append('file', file);
-
-            await fetch(`https://www.googleapis.com/upload/drive/v3/files/${this.fileId}?uploadType=multipart`, {
+            await fetch(`https://www.googleapis.com/upload/drive/v3/files/${this.fileId}?uploadType=media`, {
                 method: 'PATCH',
-                headers: new Headers({ 'Authorization': 'Bearer ' + this.accessToken }),
-                body: form
+                headers: new Headers({ 
+                    'Authorization': 'Bearer ' + this.accessToken,
+                    'Content-Type': 'application/json'
+                }),
+                body: JSON.stringify(backupData)
             });
             
             this.showToast("✅ Sauvegardé sur Drive !", true);

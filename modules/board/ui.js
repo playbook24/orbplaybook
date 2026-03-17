@@ -442,19 +442,27 @@ window.ORB.ui = {
             const pbState = window.ORB.playbookState;
             const isHalf = pbState.courtType === 'half';
 
-            const drawW = isHalf ? 1500 : 2800;
-            const drawH = isHalf ? 1400 : 1500;
+            const drawW = isHalf ? 450 : 840;
+            const drawH = isHalf ? 420 : 450;
 
             const baseW = isHalf ? 450 : 840;
             const baseH = isHalf ? 420 : 450;
 
-            const finalW = (isHalf && forceStandardRatio) ? 2800 : drawW;
-            const finalH = (isHalf && forceStandardRatio) ? 1500 : drawH;
+            const finalW = (isHalf && forceStandardRatio) ? 840 : drawW;
+            const finalH = (isHalf && forceStandardRatio) ? 450 : drawH;
 
             const tempC = document.createElement('canvas');
             tempC.width = finalW;
             tempC.height = finalH;
             const tCtx = tempC.getContext('2d');
+
+            const currentPixelRatio = window.devicePixelRatio || 1;
+            const captureScale = Math.max(currentPixelRatio, 2);
+
+            // html2canvas(document.getElementById('court-background-container'), {
+            //     backgroundColor: null,
+            //     scale: captureScale,
+            // });
 
             const isCrab = document.body.classList.contains('crab-mode');
             const primaryColor = isCrab ? '#72243D' : '#BFA98D';
@@ -493,6 +501,12 @@ window.ORB.ui = {
             if (isCrab) {
                 xml = xml.replace(/#212121/gi, secondaryColor);
             }
+            
+            if (!forPdf) {
+                xml = xml.replace(/stroke-width="0\.6"/g, 'stroke-width="1.0"');
+                xml = xml.replace(/stroke-width="0\.5"/g, 'stroke-width="0.9"');
+                xml = xml.replace(/stroke-width="0\.8"/g, 'stroke-width="1.3"');
+            }
 
             const img = new Image();
             img.onload = () => {
@@ -511,7 +525,9 @@ window.ORB.ui = {
                 window.ORB.canvas = drawC;
                 window.ORB.ctx = dCtx;
 
+                window.ORB.renderer.isThumbnailMode = !forPdf;
                 window.ORB.renderer.redrawCanvas();
+                window.ORB.renderer.isThumbnailMode = false;
 
                 window.ORB.canvas = originalCanvas;
                 window.ORB.ctx = originalCtx;

@@ -76,7 +76,8 @@ window.ORB.renderer = {
     drawPlayer: function(logicalX, logicalY, isSelected, options = {}, p_ctx, p_getCoordsFn, animParams = {}) {
         const getCoords = p_getCoordsFn || this.getPixelCoords.bind(this);
         const { x, y } = getCoords({ x: logicalX, y: logicalY });
-        const radius = 10;
+        const isThumb = !!(window.ORB && window.ORB.renderer && window.ORB.renderer.isThumbnailMode);
+        const radius = isThumb ? 12 : 10;
         
         let hasBall = false;
         if (animParams.isAnimating) {
@@ -134,7 +135,8 @@ window.ORB.renderer = {
     drawDefender: function(logicalX, logicalY, isSelected, options = {}, p_ctx, p_getCoordsFn) {
         const getCoords = p_getCoordsFn || this.getPixelCoords.bind(this);
         const { x, y } = getCoords({ x: logicalX, y: logicalY });
-        const radius = 10;
+        const isThumb = !!(window.ORB && window.ORB.renderer && window.ORB.renderer.isThumbnailMode);
+        const radius = isThumb ? 12 : 10;
         const angle = (options.rotation || 0);
         
         p_ctx.save();
@@ -257,12 +259,16 @@ window.ORB.renderer = {
         const pixelPoints = logicalPoints.map(p => getCoords(p));
         
         p_ctx.save();
+        p_ctx.globalAlpha = 1;
+        const isThumb = !!(window.ORB && window.ORB.renderer && window.ORB.renderer.isThumbnailMode);
         p_ctx.strokeStyle = isSelected ? '#FFD700' : (options.color || '#212121');
-        p_ctx.lineWidth = options.width || 2.5;
+        p_ctx.lineWidth = (options.width || 2.5) * (isThumb ? 1.5 : 1);
         p_ctx.lineCap = 'round';
         p_ctx.lineJoin = 'round';
         
-        if (options.type === 'pass') p_ctx.setLineDash([5, 5]);
+        if (options.type === 'pass') {
+            p_ctx.setLineDash(isThumb ? [8, 8] : [5, 5]);
+        }
         
         p_ctx.beginPath();
         p_ctx.moveTo(pixelPoints[0].x, pixelPoints[0].y);
@@ -278,7 +284,7 @@ window.ORB.renderer = {
             }
         } else if (options.type === 'dribble') {
             for (let i = 1; i < pixelPoints.length; i++) {
-                this.drawZigZagSegment(pixelPoints[i - 1], pixelPoints[i], p_ctx);
+                this.drawZigZagSegment(pixelPoints[i - 1], pixelPoints[i], p_ctx, isThumb);
             }
         } else {
             for (let i = 1; i < pixelPoints.length - 1; i++) {
@@ -307,7 +313,7 @@ window.ORB.renderer = {
         p_ctx.lineWidth = 2;
         
         if (options.type === 'screen') {
-            const barLength = 10;
+            const barLength = isThumb ? 15 : 10;
             const p1x = endPoint.x + barLength * Math.cos(angle + Math.PI / 2);
             const p1y = endPoint.y + barLength * Math.sin(angle + Math.PI / 2);
             const p2x = endPoint.x + barLength * Math.cos(angle - Math.PI / 2);
@@ -317,7 +323,7 @@ window.ORB.renderer = {
             p_ctx.lineTo(p2x, p2y);
             p_ctx.stroke();
         } else {
-            const headlen = 10;
+            const headlen = isThumb ? 16 : 10;
             p_ctx.beginPath();
             p_ctx.moveTo(endPoint.x, endPoint.y);
             p_ctx.lineTo(endPoint.x - headlen * Math.cos(angle - Math.PI / 6), endPoint.y - headlen * Math.sin(angle - Math.PI / 6));
@@ -328,7 +334,7 @@ window.ORB.renderer = {
         p_ctx.restore();
     },
 
-    drawZigZagSegment: function(start, end, p_ctx) {
+    drawZigZagSegment: function(start, end, p_ctx, isThumb = false) {
         const dx = end.x - start.x;
         const dy = end.y - start.y;
         const dist = Math.hypot(dx, dy);
@@ -338,8 +344,8 @@ window.ORB.renderer = {
         };
         const angle = Math.atan2(dy, dx);
         const perpAngle = angle + Math.PI / 2;
-        const segmentCount = Math.ceil(dist / 15);
-        const amplitude = 4;
+        const segmentCount = Math.ceil(dist / (isThumb ? 20 : 15));
+        const amplitude = isThumb ? 6 : 4;
         for (let j = 1; j <= segmentCount; j++) {
             const p = (j - 0.5) / segmentCount;
             const mX = start.x + p * dx;
