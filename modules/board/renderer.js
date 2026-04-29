@@ -14,12 +14,14 @@ window.ORB.renderer = {
         const isHalf = window.ORB.playbookState && window.ORB.playbookState.courtType === 'half';
         
         // NOUVEAU : Dimensions logiques distinctes (150x140 pour le vertical)
-        const viewWidth = isHalf ? 150 : 280;
-        const viewHeight = isHalf ? 140 : 150;
+        const viewMinX = -10;
+        const viewMinY = -10;
+        const viewWidth = isHalf ? 170 : 300;
+        const viewHeight = isHalf ? 160 : 170;
         
         return {
-            x: (logicalPoint.x / viewWidth) * rect.width,
-            y: (logicalPoint.y / viewHeight) * rect.height
+            x: ((logicalPoint.x - viewMinX) / viewWidth) * rect.width,
+            y: ((logicalPoint.y - viewMinY) / viewHeight) * rect.height
         };
     },
 

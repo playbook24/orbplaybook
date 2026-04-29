@@ -211,12 +211,14 @@ window.ORB.animation = {
         const easedMovementProgress = this.easeInOutQuad(movementProgress);
         
         const isHalf = p_animState.view === 'half';
-        const viewWidth = isHalf ? 150 : 280;
-        const viewHeight = isHalf ? 140 : 150;
+        const viewMinX = -10;
+        const viewMinY = -10;
+        const viewWidth = isHalf ? 170 : 300;
+        const viewHeight = isHalf ? 160 : 170;
         const getCoordsWithRect = (pos) => {
              return {
-                 x: (pos.x / viewWidth) * p_rect.width,
-                 y: (pos.y / viewHeight) * p_rect.height
+                 x: ((pos.x - viewMinX) / viewWidth) * p_rect.width,
+                 y: ((pos.y - viewMinY) / viewHeight) * p_rect.height
              };
         };
         
@@ -321,7 +323,7 @@ window.ORB.animation = {
 
             const animContainer = document.getElementById('animation-container');
             if (animContainer) {
-                const targetRatio = courtView === 'half' ? 150 / 140 : 280 / 150;
+                const targetRatio = courtView === 'half' ? 170 / 160 : 300 / 170;
                 const maxWidth = Math.min(1000, window.innerWidth * 0.9);
                 const maxHeight = window.innerHeight * 0.7; 
                 
@@ -342,9 +344,9 @@ window.ORB.animation = {
             const courtSvg = document.getElementById('court-svg').cloneNode(true);
             
             if (courtView === 'half') {
-                courtSvg.setAttribute('viewBox', '0 0 150 140');
+                courtSvg.setAttribute('viewBox', '-10 -10 170 160');
             } else {
-                courtSvg.setAttribute('viewBox', '0 0 280 150');
+                courtSvg.setAttribute('viewBox', '-10 -10 300 170');
             }
             courtSvg.setAttribute('preserveAspectRatio', 'none'); 
             
@@ -477,8 +479,8 @@ window.ORB.animation = {
 
             const offscreenCanvas = document.createElement('canvas');
             
-            const viewWidth = courtView === 'half' ? 150 : 280;
-            const viewHeight = courtView === 'half' ? 140 : 150;
+            const viewWidth = courtView === 'half' ? 170 : 300;
+            const viewHeight = courtView === 'half' ? 160 : 170;
             const aspectRatio = viewWidth / viewHeight;
             
             const maxDimension = 1920;
@@ -498,9 +500,9 @@ window.ORB.animation = {
             courtSvg.setAttribute('height', offscreenCanvas.height);
             
             if (courtView === 'half') {
-                courtSvg.setAttribute('viewBox', '0 0 150 140');
+                courtSvg.setAttribute('viewBox', '-10 -10 170 160');
             } else {
-                courtSvg.setAttribute('viewBox', '0 0 280 150');
+                courtSvg.setAttribute('viewBox', '-10 -10 300 170');
             }
             courtSvg.setAttribute('preserveAspectRatio', 'none'); 
 

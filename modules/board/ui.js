@@ -34,9 +34,9 @@ window.ORB.ui = {
         const courtSvg = document.getElementById('court-svg');
         if (courtSvg) {
             if (view === 'half') {
-                courtSvg.setAttribute('viewBox', '0 0 150 140');
+                courtSvg.setAttribute('viewBox', '-10 -10 170 160');
                 courtSvg.innerHTML = `
-                    <rect x="0" y="0" width="150" height="140" fill="var(--color-primary)"/>
+                    <rect x="-10" y="-10" width="170" height="160" fill="var(--color-primary)"/>
                     <g class="court-lines" stroke="#212121" stroke-width="0.6" fill="none">
                         <rect x="0" y="0" width="150" height="140"/>
                         <rect x="46" y="0" width="58" height="50.5" />
@@ -51,9 +51,9 @@ window.ORB.ui = {
                     <path class="court-lines" d="M 57 140 A 18 18 0 0 1 93 140" stroke="#212121" stroke-width="0.6" fill="none"/>
                 `;
             } else {
-                courtSvg.setAttribute('viewBox', '0 0 280 150');
+                courtSvg.setAttribute('viewBox', '-10 -10 300 170');
                 courtSvg.innerHTML = `
-                    <rect x="0" y="0" width="280" height="150" fill="var(--color-primary)"/>
+                    <rect x="-10" y="-10" width="300" height="170" fill="var(--color-primary)"/>
                     <g class="court-lines" stroke="#212121" stroke-width="0.6" fill="none"><rect x="0" y="0" width="280" height="150"/><line x1="140" y1="0" x2="140" y2="150"/><rect x="0" y="50.5" width="58" height="49" /><path d="M 58 50.5 A 18 18 0 0 1 58 99.5" /><path d="M 0 6 L 29.1 6 A 67.5 67.5 0 0 1 29.1 144 L 0 144" /><rect x="222" y="50.5" width="58" height="49" /><path d="M 222 50.5 A 18 18 0 0 0 222 99.5" /><path d="M 280 6 L 250.9 6 A 67.5 67.5 0 0 0 250.9 144 L 280 144" /></g>
                     <g class="center-court-logo">
                         <circle cx="140" cy="75" r="18" fill="var(--color-primary)" />
@@ -442,14 +442,14 @@ window.ORB.ui = {
             const pbState = window.ORB.playbookState;
             const isHalf = pbState.courtType === 'half';
 
-            const drawW = isHalf ? 450 : 840;
-            const drawH = isHalf ? 420 : 450;
+            const drawW = isHalf ? 510 : 900;
+            const drawH = isHalf ? 480 : 510;
 
-            const baseW = isHalf ? 450 : 840;
-            const baseH = isHalf ? 420 : 450;
+            const baseW = isHalf ? 510 : 900;
+            const baseH = isHalf ? 480 : 510;
 
-            const finalW = (isHalf && forceStandardRatio) ? 840 : drawW;
-            const finalH = (isHalf && forceStandardRatio) ? 450 : drawH;
+            const finalW = (isHalf && forceStandardRatio) ? 900 : drawW;
+            const finalH = (isHalf && forceStandardRatio) ? 510 : drawH;
 
             const tempC = document.createElement('canvas');
             tempC.width = finalW;
@@ -478,7 +478,7 @@ window.ORB.ui = {
             courtSvg.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
             courtSvg.setAttribute('width', drawW);
             courtSvg.setAttribute('height', drawH);
-            courtSvg.setAttribute('viewBox', isHalf ? '0 0 150 140' : '0 0 280 150');
+            courtSvg.setAttribute('viewBox', isHalf ? '-10 -10 170 160' : '-10 -10 300 170');
             courtSvg.setAttribute('preserveAspectRatio', 'none');
 
             if (isCrab) {

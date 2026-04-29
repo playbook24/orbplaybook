@@ -106,7 +106,7 @@ body { margin: 0; overflow: hidden; background: var(--color-background); }
 #court-container {
     position: relative; box-shadow: 0 10px 40px rgba(0,0,0,0.5);
     border-radius: 4px; background: #BFA98D; overflow: hidden;
-    width: 100%; max-width: 1000px; aspect-ratio: 280 / 150;
+    width: 100%; max-width: 1000px; aspect-ratio: 300 / 170;
     border: 2px solid var(--color-primary);
     transition: all 0.3s ease;
 }
@@ -152,7 +152,7 @@ body { margin: 0; overflow: hidden; background: var(--color-background); }
         /* Assure que le terrain garde ses proportions mais s'adapte à la largeur */
         width: 95%; 
         height: auto; 
-        aspect-ratio: 280 / 150; 
+        aspect-ratio: 300 / 170; 
     }
 }
 
@@ -169,7 +169,7 @@ body { margin: 0; overflow: hidden; background: var(--color-background); }
 
 /* --- CORRECTION ASPECT RATIO DEMI-TERRAIN --- */
 body.view-half-court #court-container {
-    aspect-ratio: 150 / 140; /* NOUVEAU RATIO VERTICAL */
+    aspect-ratio: 170 / 160; /* NOUVEAU RATIO VERTICAL */
     max-width: 500px; /* Évite que le terrain ne devienne gigantesque en hauteur sur grand écran */
     margin: 0 auto;
 }

@@ -28,8 +28,10 @@ window.ORB.interactions = {
         const rect = canvas.getBoundingClientRect();
         
         const isHalf = window.ORB.playbookState && window.ORB.playbookState.courtType === 'half';
-        const viewWidth = isHalf ? 150 : 280;
-        const viewHeight = isHalf ? 140 : 150;
+        const viewMinX = -10;
+        const viewMinY = -10;
+        const viewWidth = isHalf ? 170 : 300;
+        const viewHeight = isHalf ? 160 : 170;
 
         let clientX = e.clientX;
         let clientY = e.clientY;
@@ -41,8 +43,8 @@ window.ORB.interactions = {
 
         // On calcule directement ici pour garantir que le ratio correspond à 100% au renderer
         return {
-            x: ((clientX - rect.left) / rect.width) * viewWidth,
-            y: ((clientY - rect.top) / rect.height) * viewHeight
+            x: ((clientX - rect.left) / rect.width) * viewWidth + viewMinX,
+            y: ((clientY - rect.top) / rect.height) * viewHeight + viewMinY
         };
     },
 
@@ -203,8 +205,8 @@ window.ORB.interactions = {
             const viewWidth = isHalf ? 150 : window.ORB.CONSTANTS.LOGICAL_WIDTH;
             const viewHeight = isHalf ? 140 : window.ORB.CONSTANTS.LOGICAL_HEIGHT;
             
-            // Si on sort l'élément du terrain, on le supprime
-            if (currentPos.x < -10 || currentPos.x > viewWidth + 10 || currentPos.y < -10 || currentPos.y > viewHeight + 10) {
+            // Si on sort l'élément du terrain, on le supprime (marges de -30 / +30 pour l'espace hors terrain)
+            if (currentPos.x < -30 || currentPos.x > viewWidth + 30 || currentPos.y < -30 || currentPos.y > viewHeight + 30) {
                 let elements = window.ORB.playbookState.scenes[window.ORB.playbookState.activeSceneIndex].elements;
                 if (appState.selectedElement.type === 'player') {
                     const balls = elements.filter(b => b.type === 'ball' && b.linkedTo === appState.selectedElement.id);
