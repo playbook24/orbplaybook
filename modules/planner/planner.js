@@ -68,7 +68,8 @@ const PlannerModule = {
         });
 
         document.getElementById('plan-editor-cancel-btn').onclick = () => this.closeEditor();
-        document.getElementById('plan-editor-save-btn').onclick = () => this.savePlan();
+        document.getElementById('plan-editor-create-btn').onclick = () => this.createPlan();
+        document.getElementById('plan-editor-update-btn').onclick = () => this.updatePlan();
         
         this.btnLibBack.onclick = () => {
             this.libViewMode = 'FOLDERS';
@@ -223,9 +224,14 @@ const PlannerModule = {
             card.innerHTML = `
                 <div style="display:flex; justify-content:space-between; align-items:flex-start;">
                     <h3 style="margin-top:0; color:var(--color-primary); font-size:1.4em; border-bottom:1px solid var(--color-border); padding-bottom:10px; flex-grow:1;">${plan.name || 'Séance sans nom'}</h3>
-                    <button class="btn-icon" title="Classer la séance" onclick="PlannerModule.openAssignPlanModal(${plan.id})" style="color:var(--color-primary); margin-left:10px;">
-                        <svg viewBox="0 0 24 24" style="width:24px;"><path d="M21.41 11.58L12.41 2.58C12.05 2.22 11.55 2 11 2H4C2.9 2 2 2.9 2 4V11C2 11.55 2.22 12.05 2.59 12.41L11.58 21.41C11.95 21.77 12.45 22 13 22C13.55 22 14.05 21.77 14.41 21.41L21.41 14.41C21.78 14.05 22 13.55 22 13C22 12.45 21.77 11.95 21.41 11.58M13 20L4 11V4H11L20 13L13 20M6.5 5C7.33 5 8 5.67 8 6.5S7.33 8 6.5 8 5 7.33 5 6.5 5.67 5 6.5 5Z"/></svg>
-                    </button>
+                    <div style="display: flex; gap: 5px;">
+                        <button class="btn-icon" title="${plan.pinned ? 'Désépingler du Hub' : 'Épingler au Hub'}" onclick="PlannerModule.togglePin(${plan.id})" style="color:${plan.pinned ? 'var(--color-primary)' : 'var(--color-text-muted)'}; margin-left:10px;">
+                            <svg viewBox="0 0 24 24" style="width:24px; fill:currentColor;"><path d="M16,12V4H17V2H7V4H8V12L6,14V16H11.2V22H12.8V16H18V14L16,12M8.8,14L10,12.8V4H14V12.8L15.2,14H8.8Z"/></svg>
+                        </button>
+                        <button class="btn-icon" title="Classer la séance" onclick="PlannerModule.openAssignPlanModal(${plan.id})" style="color:var(--color-primary);">
+                            <svg viewBox="0 0 24 24" style="width:24px; fill:currentColor;"><path d="M21.41 11.58L12.41 2.58C12.05 2.22 11.55 2 11 2H4C2.9 2 2 2.9 2 4V11C2 11.55 2.22 12.05 2.59 12.41L11.58 21.41C11.95 21.77 12.45 22 13 22C13.55 22 14.05 21.77 14.41 21.41L21.41 14.41C21.78 14.05 22 13.55 22 13C22 12.45 21.77 11.95 21.41 11.58M13 20L4 11V4H11L20 13L13 20M6.5 5C7.33 5 8 5.67 8 6.5S7.33 8 6.5 8 5 7.33 5 6.5 5.67 5 6.5 5Z"/></svg>
+                        </button>
+                    </div>
                 </div>
                 <p style="opacity:0.8; font-size:1em; margin: 15px 0;"><strong style="color:var(--color-text)">${plan.playbookIds.length}</strong> exercices inclus</p>
                 <div style="margin-top:20px; display:flex; flex-wrap: wrap; gap:10px;">
@@ -241,6 +247,24 @@ const PlannerModule = {
         });
 
         document.getElementById('btn-new-plan').onclick = () => this.openEditor();
+    },
+
+    async togglePin(planId) {
+        try {
+            const plan = this.allPlans.find(p => p.id === planId);
+            if (!plan) return;
+            plan.pinned = !plan.pinned;
+            if (plan.pinned) {
+                plan.pinnedAt = Date.now();
+            } else {
+                delete plan.pinnedAt;
+            }
+            await orbDB.savePlan(plan, plan.id);
+            this.allPlans = await orbDB.getAllPlans();
+            this.renderPlansGrid();
+        } catch (e) {
+            console.error("Erreur lors de l'épinglage", e);
+        }
     },
 
     openAssignPlanModal(planId) {
@@ -414,8 +438,14 @@ const PlannerModule = {
         this.currentPlan = plan ? { ...plan } : { id: null, name: '', notes: '', playbookIds: [] };
         
         document.getElementById('editor-main-title').innerHTML = plan ? `ÉDITION <span class="highlight">SÉANCE</span>` : `NOUVELLE <span class="highlight">SÉANCE</span>`;
-        document.getElementById('plan-editor-name').value = this.currentPlan.name;
-        document.getElementById('plan-editor-notes').value = this.currentPlan.notes;
+        
+        if (plan) {
+            document.getElementById('plan-editor-create-btn').classList.add('hidden');
+            document.getElementById('plan-editor-update-btn').classList.remove('hidden');
+        } else {
+            document.getElementById('plan-editor-create-btn').classList.remove('hidden');
+            document.getElementById('plan-editor-update-btn').classList.add('hidden');
+        }
         
         this.renderPlanExos();
 
@@ -576,7 +606,7 @@ const PlannerModule = {
                 <div class="plan-item-left">
                     <span class="drag-handle" title="Maintenir pour déplacer">⣿</span>
                     <span style="font-weight:900; color:var(--color-primary); width:20px;">${index + 1}.</span>
-                    ${previewUrl ? `<img src="${previewUrl}">` : `<div style="width:140px; height:90px; background:var(--color-background); border-radius:6px;"></div>`}
+                    ${previewUrl ? `<img src="${previewUrl}">` : `<div style="width:130px; height:80px; background:var(--color-background); border-radius:6px;"></div>`}
                     <span style="font-weight:bold; font-size:1.1em;">${pb.name || 'Sans nom'}</span>
                 </div>
                 <button class="btn-icon danger" onclick="PlannerModule.removeExo(${index})" style="padding:8px;" title="Retirer">
@@ -606,25 +636,43 @@ const PlannerModule = {
         this.renderPlanExos();
     },
 
-    async savePlan() {
+    async createPlan() {
         try {
+            const planName = prompt("Entrez le nom de la séance (ex: Focus Défense U15...):");
+            if (planName === null) return; // User cancelled
+            
             const planToSave = {
-                name: document.getElementById('plan-editor-name').value || "Séance du " + new Date().toLocaleDateString(),
-                notes: document.getElementById('plan-editor-notes').value,
+                name: planName.trim() || "Séance du " + new Date().toLocaleDateString(),
+                notes: "",
                 playbookIds: this.currentPlan.playbookIds,
                 folderIds: this.currentPlan.folderIds || (this.currentPlanFolderId !== 'ALL' && this.currentPlanFolderId ? [this.currentPlanFolderId] : [])
             };
-            
-            if (this.currentPlan.id !== null && this.currentPlan.id !== undefined) {
-                planToSave.id = this.currentPlan.id;
-            }
+
+            await orbDB.savePlan(planToSave, null);
+            this.closeEditor();
+            this.loadGrid();
+        } catch (error) {
+            console.error("Erreur de création:", error);
+            alert("Erreur technique lors de la création.");
+        }
+    },
+
+    async updatePlan() {
+        try {
+            const planToSave = {
+                id: this.currentPlan.id,
+                name: this.currentPlan.name || "Séance du " + new Date().toLocaleDateString(),
+                notes: this.currentPlan.notes || "",
+                playbookIds: this.currentPlan.playbookIds,
+                folderIds: this.currentPlan.folderIds || (this.currentPlanFolderId !== 'ALL' && this.currentPlanFolderId ? [this.currentPlanFolderId] : [])
+            };
 
             await orbDB.savePlan(planToSave, this.currentPlan.id);
             this.closeEditor();
             this.loadGrid();
         } catch (error) {
-            console.error("Erreur de sauvegarde:", error);
-            alert("Erreur technique lors de la sauvegarde.");
+            console.error("Erreur de mise à jour:", error);
+            alert("Erreur technique lors de la mise à jour.");
         }
     },
 
@@ -691,4 +739,5 @@ const PlannerModule = {
     }
 };
 
+window.PlannerModule = PlannerModule;
 document.addEventListener('DOMContentLoaded', () => PlannerModule.init());

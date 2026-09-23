@@ -1,7 +1,7 @@
-/**
+﻿/**
  * style.css
- * V4 - IDENTITÉ VISUELLE PREMIUM (NOIR & OR)
- * Structure globale, Grille, et Tailles d'icônes
+ * V4 - IDENTITÃ‰ VISUELLE PREMIUM (NOIR & OR)
+ * Structure globale, Grille, et Tailles d'icÃ´nes
  */
 
 @import url('https://fonts.googleapis.com/css2?family=Anton&family=Montserrat:wght@400;500;600;700&display=swap');
@@ -14,11 +14,11 @@
     --color-primary: #BFA98D; 
     --color-primary-hover: #d1bc9f; 
     
-    /* --- THÈME SOMBRE (Par défaut) --- */
+    /* --- THÃˆME SOMBRE (Par dÃ©faut) --- */
     --color-secondary: #121212; /* Noir du Header */
     --color-background: #1a1a1a; /* Fond de page */
     --color-container: #242424; /* Fond des cartes */
-    --color-border: #383838; /* Lignes séparatrices */
+    --color-border: #383838; /* Lignes sÃ©paratrices */
     
     /* --- TEXTES --- */
     --color-text: #F5F5F5; 
@@ -71,7 +71,7 @@ h1 span.highlight, h1 span { color: var(--color-primary); }
    ========================================== */
 .dashboard-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    grid-template-columns: repeat(4, 1fr);
     gap: 20px;
     max-width: 1200px;
     margin: 40px auto;
@@ -81,7 +81,7 @@ h1 span.highlight, h1 span { color: var(--color-primary); }
 .nav-card {
     background: var(--color-container);
     border-radius: 12px;
-    padding: 30px 20px;
+    padding: 20px 15px;
     text-align: center;
     text-decoration: none;
     color: var(--color-text);
@@ -100,10 +100,10 @@ h1 span.highlight, h1 span { color: var(--color-primary); }
     border-color: var(--color-primary);
 }
 
-/* FIX DES ICÔNES GÉANTES */
+/* FIX DES ICÃ”NES GÃ‰ANTES */
 .nav-card svg {
-    width: 45px !important;
-    height: 45px !important;
+    width: 36px !important;
+    height: 36px !important;
     margin-bottom: 15px;
     fill: var(--color-primary);
     transition: transform 0.2s;
@@ -112,7 +112,7 @@ h1 span.highlight, h1 span { color: var(--color-primary); }
 
 .nav-card span { font-size: 1.1em; font-weight: 600; }
 
-/* Carte de Backup (Coupée en 2) */
+/* Carte de Backup (CoupÃ©e en 2) */
 .split-card { flex-direction: row; padding: 0; overflow: hidden; cursor: default; }
 .split-card:hover { border-color: var(--color-border); transform: none;}
 
@@ -166,7 +166,7 @@ input:focus, textarea:focus, select:focus { border-color: var(--color-primary); 
 
 .danger { color: var(--color-primary) !important; border-color: var(--color-primary) !important; }
 button.danger { background: transparent; border: 1px solid var(--color-primary); transition: all 0.2s; }
-button.danger:hover { background: rgba(191, 169, 141, 0.1); } /* Effet de survol avec un fond or léger */
+button.danger:hover { background: rgba(191, 169, 141, 0.1); } /* Effet de survol avec un fond or lÃ©ger */
 
 /* ==========================================
    MODE CLAIR (LIGHT MODE)
@@ -183,13 +183,13 @@ body.light-mode {
     --shadow-lifted: 0 6px 16px rgba(0,0,0,0.12);
 }
 
-/* Ajustements visuels spécifiques au mode clair */
+/* Ajustements visuels spÃ©cifiques au mode clair */
 body.light-mode h1 { color: #ffffff; } /* Le titre du header reste lisible */
 body.light-mode .nav-card { border-color: #dcdcdc; }
 body.light-mode .split-btn:hover { background-color: rgba(0, 0, 0, 0.05); }
 
 /* ==========================================
-   MODE CRAB (THÈME ÉQUIPE)
+   MODE CRAB (THÃˆME Ã‰QUIPE)
    ========================================== */
 body.crab-mode {
     --color-primary: #72243D; /* Bordeaux */
@@ -212,7 +212,7 @@ body.crab-mode h1 span.highlight {
 /* ==========================================
    TERRAIN (COURT SVG) - ADAPTATION MODE CRAB
    ========================================== */
-/* Cache le texte "CRAB" par défaut */
+/* Cache le texte "CRAB" par dÃ©faut */
 .court-text-crab {
     display: none;
 }
@@ -232,12 +232,12 @@ body.crab-mode .court-text-crab {
 /* ==========================================
    CORRECTION BOUTON RETOUR ET HEADER (MODE CLAIR)
    ========================================== */
-/* Couleur blanche par défaut (Mode sombre) */
+/* Couleur blanche par dÃ©faut (Mode sombre) */
 .header-back-btn {
     color: var(--color-text-on-dark);
 }
 
-/* En Mode clair : Force la flèche et les titres du Header à devenir foncés pour être lisibles */
+/* En Mode clair : Force la flÃ¨che et les titres du Header Ã  devenir foncÃ©s pour Ãªtre lisibles */
 body.light-mode .header-back-btn,
 body.light-mode .app-header h1,
 body.light-mode .app-header a {
@@ -246,8 +246,27 @@ body.light-mode .app-header a {
 /* RESPONSIVE GLOBAL */
 @media (max-width: 768px) {
     .dashboard-grid {
-        grid-template-columns: 1fr; /* 1 seule colonne sur mobile */
+        grid-template-columns: repeat(2, 1fr); /* 2 colonnes sur mobile */
         padding: 0 10px;
+        gap: 10px;
+    }
+    .nav-card {
+        padding: 15px 10px;
+    }
+    .nav-card svg {
+        width: 30px !important;
+        height: 30px !important;
+        margin-bottom: 8px;
+    }
+    .nav-card span {
+        font-size: 0.85em;
+    }
+    .split-btn {
+        padding: 10px 5px;
+    }
+    .split-btn svg {
+        width: 24px !important;
+        height: 24px !important;
     }
     .app-header h1 {
         font-size: 1.5em; /* Titre plus petit */
@@ -264,7 +283,7 @@ body.light-mode .app-header a {
         padding: 15px;
     }
 }
-/* --- BOUTONS GOOGLE DRIVE (THÈME NOIR & OR) --- */
+/* --- BOUTONS GOOGLE DRIVE (THÃˆME NOIR & OR) --- */
 /* NOUVEAU : Remplacement des couleurs fixes par les variables pour s'adapter au mode Crab/Light */
 .drive-main-btn {
     width: 100%;
@@ -332,3 +351,48 @@ body.light-mode .app-header a {
     background: var(--color-primary);
     color: var(--color-text-on-gold);
 }
+
+/* --- WIDGETS HUB --- */
+.widgets-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; max-width: 1200px; margin: 20px auto 0; padding: 0 20px; }
+.widget-card { background: var(--color-container); border-radius: 12px; padding: 20px; box-shadow: var(--shadow-soft); border: 1px solid var(--color-border); display: flex; flex-direction: column; }
+.widget-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--color-border); padding-bottom: 10px; margin-bottom: 15px; }
+.widget-header h3 { margin: 0; color: var(--color-primary); font-size: 1.2em; display: flex; align-items: center; gap: 8px; }
+.widget-content { flex-grow: 1; overflow-y: auto; max-height: 250px; display: flex; flex-direction: column; gap: 10px; }
+.widget-item { background: rgba(0,0,0,0.2); padding: 12px; border-radius: 8px; border: 1px solid var(--color-border); cursor: pointer; transition: all 0.2s; color: var(--color-text); text-decoration: none; display: flex; align-items: center; justify-content: space-between; }
+.widget-item:hover { border-color: var(--color-primary); transform: translateX(5px); }
+.widget-item strong { color: var(--color-text-on-dark); }
+.widget-item span { font-size: 0.9em; opacity: 0.8; }
+.widget-empty { text-align: center; opacity: 0.6; padding: 20px; font-style: italic; }
+@media (max-width: 768px) { .widgets-container { grid-template-columns: 1fr; padding: 0 10px; } }
+
+@media (max-width: 768px) { .hub-layout { flex-direction: column; gap: 20px; } .hub-buttons-column, .hub-widgets-column { width: 100%; } }
+
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+.nav-card, .widget-card { animation: fadeInUp 0.5s ease-out forwards; opacity: 0; }
+.nav-card:nth-child(1) { animation-delay: 0.05s; }
+.nav-card:nth-child(2) { animation-delay: 0.1s; }
+.nav-card:nth-child(3) { animation-delay: 0.15s; }
+.nav-card:nth-child(4) { animation-delay: 0.2s; }
+.nav-card:nth-child(5) { animation-delay: 0.25s; }
+.nav-card:nth-child(6) { animation-delay: 0.3s; }
+.nav-card:nth-child(7) { animation-delay: 0.35s; }
+.nav-card:nth-child(8) { animation-delay: 0.4s; }
+.widget-card:nth-child(1) { animation-delay: 0.2s; }
+.widget-card:nth-child(2) { animation-delay: 0.3s; }
+
+/* Corrections scrollbar et animation */
+.widget-content { overflow-x: hidden !important; padding-right: 5px; }
+.widget-content::-webkit-scrollbar { width: 6px; }
+.widget-content::-webkit-scrollbar-track { background: transparent; }
+.widget-content::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: 4px; }
+.widget-content::-webkit-scrollbar-thumb:hover { background: var(--color-primary); }
+.widget-item:hover { transform: none !important; background: rgba(191, 169, 141, 0.1); }
+.nav-card:nth-child(8) { animation-delay: 0.4s !important; }
+.nav-card:nth-child(9) { animation-delay: 0.45s !important; }
+.nav-card:nth-child(10) { animation-delay: 0.5s !important; }
+.nav-card:nth-child(11) { animation-delay: 0.55s !important; }
+.nav-card:nth-child(12) { animation-delay: 0.6s !important; }
+
+body { background: radial-gradient(circle at 50% -10%, rgba(224, 180, 80, 0.35) 0%, var(--color-background) 60%); background-attachment: fixed; }
+body.light-mode { background: radial-gradient(circle at 50% -10%, rgba(224, 180, 80, 0.45) 0%, var(--color-background) 60%); background-attachment: fixed; }
+body.crab-mode { background: radial-gradient(circle at 50% -10%, rgba(114, 36, 61, 0.5) 0%, var(--color-background) 60%); background-attachment: fixed; }

@@ -17,7 +17,21 @@ const CalendarModule = {
         this.cacheDOM();
         this.bindEvents();
         await orbDB.open();
-        this.render();
+        
+        // Handle URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const urlDate = urlParams.get('date');
+        const urlId = urlParams.get('id');
+        
+        if (urlDate) {
+            this.currentDate = new Date(urlDate);
+        }
+        
+        await this.render();
+        
+        if (urlDate && urlId) {
+            this.openEditor(urlDate, parseInt(urlId, 10));
+        }
     },
 
     getContrastYIQ(hexcolor){

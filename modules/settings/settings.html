@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
@@ -49,10 +49,13 @@
         .toggle-btn:hover { background: #e0e0e0; }
         .toggle-btn.active { background: var(--color-primary); color: white; border-color: var(--color-primary); }
         
-        /* Ajustements pour le mode clair / sombre du bouton lui-même */
         body:not(.light-mode) .toggle-btn:hover { background: #444; }
         
         .info-text { font-size: 0.85em; opacity: 0.7; margin-top: -5px; line-height: 1.4; }
+
+        .sort-item { display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.2); padding: 10px 15px; margin-bottom: 5px; border-radius: 6px; border: 1px solid var(--color-border); }
+        .sort-btns button { background: none; border: none; color: var(--color-text); cursor: pointer; padding: 5px; }
+        .sort-btns button:hover { color: var(--color-primary); }
     </style>
 </head>
 <body>
@@ -95,6 +98,27 @@
             </p>
         </div>
 
+        <div class="settings-group">
+            <h2>Personnalisation de l'Accueil</h2>
+            
+            <div class="settings-row">
+                <span>Afficher Événements (Calendrier)</span>
+                <button id="hub-toggle-calendar" class="toggle-btn">Activer</button>
+            </div>
+            
+            <div class="settings-row">
+                <span>Afficher Séances Épinglées</span>
+                <button id="hub-toggle-plans" class="toggle-btn">Activer</button>
+            </div>
+            
+            <div style="margin-top: 25px; border-top: 1px dashed var(--color-border); padding-top: 15px;">
+                <h3 style="font-size: 1.1em; color: var(--color-primary); margin-top: 0;">Ordre des Boutons</h3>
+                <ul id="hub-button-list" style="list-style: none; padding: 0; margin: 0; max-height: 250px; overflow-y: auto;">
+                    <!-- Rempli par le JS -->
+                </ul>
+            </div>
+        </div>
+
         <div class="settings-group" style="text-align: center; opacity: 0.6; padding-top: 10px;">
             <p style="margin: 0; font-weight: bold;">ORB Tactical Board V4</p>
             <p style="margin: 5px 0 0 0; font-size: 0.9em;">Créé par Augier Flavien</p>
@@ -104,16 +128,13 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // Applique les thèmes globaux au chargement (V4 est sombre par défaut)
             if (localStorage.getItem('theme') === 'light') document.body.classList.add('light-mode');
             if (localStorage.getItem('teamMode') === 'crab') document.body.classList.add('crab-mode');
 
-            // Références boutons
             const themeBtn = document.getElementById('theme-toggle-btn');
             const teamThemeBtn = document.getElementById('team-theme-btn');
             const inputModeBtn = document.getElementById('input-mode-btn');
 
-            // Initialisation état visuel des boutons
             if (localStorage.getItem('theme') === 'light') { themeBtn.textContent = 'Désactiver'; themeBtn.classList.add('active'); }
             if (localStorage.getItem('teamMode') === 'crab') { teamThemeBtn.textContent = 'Désactiver'; teamThemeBtn.classList.add('active'); }
             
@@ -121,7 +142,6 @@
             inputModeBtn.textContent = currentMode === 'stylus' ? 'Stylet' : 'Souris';
             if (currentMode === 'stylus') inputModeBtn.classList.add('active');
 
-            // Actions : Thème Clair / Sombre
             themeBtn.addEventListener('click', () => {
                 document.body.classList.toggle('light-mode');
                 const isLight = document.body.classList.contains('light-mode');
@@ -130,7 +150,6 @@
                 themeBtn.classList.toggle('active', isLight);
             });
 
-            // Actions : Thème Crab
             teamThemeBtn.addEventListener('click', () => {
                 document.body.classList.toggle('crab-mode');
                 const isCrab = document.body.classList.contains('crab-mode');
@@ -139,13 +158,93 @@
                 teamThemeBtn.classList.toggle('active', isCrab);
             });
 
-            // Actions : Input Mode (Souris / Stylet)
             inputModeBtn.addEventListener('click', () => {
                 const newMode = inputModeBtn.textContent === 'Souris' ? 'stylus' : 'mouse';
                 localStorage.setItem('inputMode', newMode);
                 inputModeBtn.textContent = newMode === 'stylus' ? 'Stylet' : 'Souris';
                 inputModeBtn.classList.toggle('active', newMode === 'stylus');
             });
+
+            // --- GESTION DE L'ACCUEIL ---
+            const btnToggleCalendar = document.getElementById('hub-toggle-calendar');
+            const btnTogglePlans = document.getElementById('hub-toggle-plans');
+            
+            const isCalendarShown = localStorage.getItem('hubShowCalendar') !== 'false';
+            const isPlansShown = localStorage.getItem('hubShowPlans') !== 'false';
+            
+            if (isCalendarShown) { btnToggleCalendar.textContent = 'Désactiver'; btnToggleCalendar.classList.add('active'); }
+            if (isPlansShown) { btnTogglePlans.textContent = 'Désactiver'; btnTogglePlans.classList.add('active'); }
+
+            btnToggleCalendar.addEventListener('click', () => {
+                const willShow = btnToggleCalendar.textContent === 'Activer';
+                localStorage.setItem('hubShowCalendar', willShow);
+                btnToggleCalendar.textContent = willShow ? 'Désactiver' : 'Activer';
+                btnToggleCalendar.classList.toggle('active', willShow);
+            });
+
+            btnTogglePlans.addEventListener('click', () => {
+                const willShow = btnTogglePlans.textContent === 'Activer';
+                localStorage.setItem('hubShowPlans', willShow);
+                btnTogglePlans.textContent = willShow ? 'Désactiver' : 'Activer';
+                btnTogglePlans.classList.toggle('active', willShow);
+            });
+
+            // --- TRI DES BOUTONS ---
+            const defaultButtonOrder = [
+                { id: 'board', label: 'Playbook' },
+                { id: 'library', label: 'Bibliothèque' },
+                { id: 'planner', label: 'Planificateur' },
+                { id: 'sheet', label: 'Fiches' },
+                { id: 'calendar', label: 'Calendrier' },
+                { id: 'roster', label: 'Effectif' },
+                { id: 'archive', label: 'Archives' },
+                { id: 'export', label: 'Exporter' },
+                { id: 'import', label: 'Restaurer' },
+                { id: 'drive', label: 'Google Drive' },
+                { id: 'settings', label: 'Paramètres' },
+                { id: 'help', label: 'Aide' }
+            ];
+            
+            const savedOrderIds = localStorage.getItem('hubButtonOrder') 
+                ? JSON.parse(localStorage.getItem('hubButtonOrder')) 
+                : defaultButtonOrder.map(b => b.id);
+            
+            let currentOrder = savedOrderIds.map(id => defaultButtonOrder.find(b => b.id === id)).filter(Boolean);
+            
+            defaultButtonOrder.forEach(btn => {
+                if (!currentOrder.some(b => b.id === btn.id)) currentOrder.push(btn);
+            });
+
+            const buttonList = document.getElementById('hub-button-list');
+
+            function renderButtonList() {
+                buttonList.innerHTML = '';
+                currentOrder.forEach((btn, index) => {
+                    const li = document.createElement('li');
+                    li.className = 'sort-item';
+                    li.innerHTML = `
+                        <span>${index + 1}. ${btn.label}</span>
+                        <div class="sort-btns">
+                            <button onclick="window.moveButton(${index}, -1)" ${index === 0 ? 'disabled style="opacity:0.3"' : ''}>▲</button>
+                            <button onclick="window.moveButton(${index}, 1)" ${index === currentOrder.length - 1 ? 'disabled style="opacity:0.3"' : ''}>▼</button>
+                        </div>
+                    `;
+                    buttonList.appendChild(li);
+                });
+                localStorage.setItem('hubButtonOrder', JSON.stringify(currentOrder.map(b => b.id)));
+            }
+
+            window.moveButton = (index, dir) => {
+                const targetIndex = index + dir;
+                if (targetIndex >= 0 && targetIndex < currentOrder.length) {
+                    const temp = currentOrder[index];
+                    currentOrder[index] = currentOrder[targetIndex];
+                    currentOrder[targetIndex] = temp;
+                    renderButtonList();
+                }
+            };
+
+            renderButtonList();
         });
     </script>
     <script src="../../core/sync.js"></script>

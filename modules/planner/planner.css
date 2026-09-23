@@ -129,7 +129,7 @@
 .plan-item-left { display: flex; align-items: center; gap: 15px; }
 .drag-handle { cursor: grab; font-size: 1.5em; opacity: 0.3; transition: opacity 0.2s; }
 .plan-item:hover .drag-handle { opacity: 1; color: var(--color-primary); }
-.plan-item img { height: 130px; width: 210px; object-fit: contain; background: #BFA98D; border-radius: 4px; border: 1px solid var(--color-border); transform: translateZ(0); backface-visibility: hidden; }
+.plan-item img { height: 80px; width: 130px; object-fit: contain; background: #BFA98D; border-radius: 4px; border: 1px solid var(--color-border); transform: translateZ(0); backface-visibility: hidden; }
 
 .premium-mini-grid {
     display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 15px; overflow-y: auto; padding-right: 10px; padding-bottom: 20px;

@@ -174,24 +174,19 @@ const Viewer = {
             const base64Image = await this.generateSceneImage(pbData, i);
             
             const sceneEl = document.createElement('div');
-            sceneEl.className = 'a4-page';
+            sceneEl.className = 'scene-item';
             
-            // Le texte doit être sombre car le fond A4 est blanc
             sceneEl.innerHTML = `
-                <div style="padding: 40px; display: flex; flex-direction: column; align-items: center; height: 100%; box-sizing: border-box;">
-                    <h2 style="font-family: 'Anton', sans-serif; text-transform: uppercase; color: var(--color-primary); margin-top: 0; font-size: 2em; letter-spacing: 1px;">
-                        ${pbData.name || 'Schéma'} - Scène ${i + 1}
-                    </h2>
-                    <div style="flex-grow: 1; display: flex; align-items: center; justify-content: center; width: 100%; margin: 30px 0;">
-                        <img src="${base64Image}" style="max-width: 100%; max-height: 500px; object-fit: contain; border-radius: 8px;">
+                <h2 style="font-family: 'Anton', sans-serif; text-transform: uppercase; color: var(--color-primary); margin-top: 0; font-size: 1.5em; letter-spacing: 1px; margin-bottom: 15px;">
+                    ${pbData.name || 'Schéma'} - Scène ${i + 1}
+                </h2>
+                <img src="${base64Image}" class="scene-image">
+                ${scene.comments ? `
+                    <div class="scene-comment" style="margin-top: 20px; padding: 15px; background: rgba(255,255,255,0.05); border-left: 4px solid var(--color-primary); border-radius: 4px; width: 100%; text-align: left;">
+                        <strong style="color: var(--color-primary); display: block; margin-bottom: 5px;">Notes :</strong>
+                        ${scene.comments}
                     </div>
-                    ${scene.comments ? `
-                        <div style="width: 100%; text-align: left; padding: 20px; background: rgba(0,0,0,0.05); border-left: 4px solid var(--color-primary); border-radius: 4px;">
-                            <strong style="color: #111; font-size: 1.1em; display: block; margin-bottom: 5px;">Notes :</strong>
-                            <div style="color: #333; font-size: 1.05em; white-space: pre-wrap;">${scene.comments}</div>
-                        </div>
-                    ` : ''}
-                </div>
+                ` : ''}
             `;
             
             this.scenesContainer.appendChild(sceneEl);
