@@ -1,4 +1,4 @@
-/**
+﻿/**
  * modules/calendar/calendar.css
  * Thème 100% Noir & Or
  */
@@ -29,7 +29,7 @@
 }
 
 .calendar-day:hover { 
-    background: rgba(191, 169, 141, 0.05); /* Lueur or */
+    background: rgba(187, 146, 67, 0.05); /* Lueur or */
     border-color: var(--color-primary);
 }
 

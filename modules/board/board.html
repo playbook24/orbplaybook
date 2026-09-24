@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
@@ -73,7 +73,7 @@
             <div style="border-top: 1px solid var(--color-border); padding-top: 15px;">
                 <label style="font-size: 0.9em; opacity: 0.7; margin-bottom: 10px; display: block;">Générer des visuels pour l'équipe</label>
                 <div style="display: flex; gap: 10px;">
-                    <button id="export-pdf-btn" class="btn-primary" style="flex:1; padding:10px; background:rgba(191,169,141,0.1); border:1px solid var(--color-primary); color:var(--color-primary);">Fiche PDF</button>
+                    <button id="export-pdf-btn" class="btn-primary" style="flex:1; padding:10px; background:rgba(187, 146, 67,0.1); border:1px solid var(--color-primary); color:var(--color-primary);">Fiche PDF</button>
                     <button id="export-video-btn" class="btn-primary" style="flex:1; padding:10px;">Vidéo Animée</button>
                 </div>
             </div>
@@ -204,18 +204,18 @@
                 <div id="court-container">
                     <div id="court-background-container">
                         <svg id="court-svg" class="court" viewBox="-10 -10 300 170" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
-                        <rect x="-10" y="-10" width="300" height="170" fill="var(--color-primary)"/>
+                        <rect x="-10" y="-10" width="300" height="170" fill="var(--color-court-bg)"/>
                         
-                        <g class="court-lines" stroke="#212121" stroke-width="0.6" fill="none"><rect x="0" y="0" width="280" height="150"/><line x1="140" y1="0" x2="140" y2="150"/><rect x="0" y="50.5" width="58" height="49" /><path d="M 58 50.5 A 18 18 0 0 1 58 99.5" /><path d="M 0 6 L 29.1 6 A 67.5 67.5 0 0 1 29.1 144 L 0 144" /><rect x="222" y="50.5" width="58" height="49" /><path d="M 222 50.5 A 18 18 0 0 0 222 99.5" /><path d="M 280 6 L 250.9 6 A 67.5 67.5 0 0 0 250.9 144 L 280 144" /></g>
+                        <g class="court-lines" stroke="var(--color-primary)" stroke-width="0.6" fill="none"><rect x="0" y="0" width="280" height="150"/><line x1="140" y1="0" x2="140" y2="150"/><rect x="0" y="50.5" width="58" height="49" /><path d="M 58 50.5 A 18 18 0 0 1 58 99.5" /><path d="M 0 6 L 29.1 6 A 67.5 67.5 0 0 1 29.1 144 L 0 144" /><rect x="222" y="50.5" width="58" height="49" /><path d="M 222 50.5 A 18 18 0 0 0 222 99.5" /><path d="M 280 6 L 250.9 6 A 67.5 67.5 0 0 0 250.9 144 L 280 144" /></g>
                         
                         <g class="center-court-logo">
-                            <circle cx="140" cy="75" r="18" fill="var(--color-primary)" />
-                            <circle class="court-lines" cx="140" cy="75" r="18" fill="none" stroke="#212121" stroke-width="0.6"/>
-                            <text class="court-text-orb" x="140" y="76" font-family="Impact, 'Arial Black', sans-serif" font-size="15" fill="#212121" text-anchor="middle" dominant-baseline="middle" letter-spacing="0.5">ORB</text>
-                            <text class="court-text-crab" x="140" y="76" font-family="Impact, 'Arial Black', sans-serif" font-size="15" fill="#212121" text-anchor="middle" dominant-baseline="middle" letter-spacing="0.5">CRAB</text>
+                            <circle cx="140" cy="75" r="18" fill="var(--color-court-bg)" />
+                            <circle class="court-lines" cx="140" cy="75" r="18" fill="none" stroke="var(--color-primary)" stroke-width="0.6"/>
+                            <text class="court-text-orb" x="140" y="76" font-family="Impact, 'Arial Black', sans-serif" font-size="15" fill="var(--color-primary)" text-anchor="middle" dominant-baseline="middle" letter-spacing="0.5">ORB</text>
+                            <text class="court-text-crab" x="140" y="76" font-family="Impact, 'Arial Black', sans-serif" font-size="15" fill="var(--color-primary)" text-anchor="middle" dominant-baseline="middle" letter-spacing="0.5">CRAB</text>
                         </g>
 
-                        <g class="court-lines" stroke="#212121" fill="none"><g transform="translate(15.75, 75)"><line x1="-3.75" y1="-9" x2="-3.75" y2="9" stroke-width="0.8"/><circle cx="0" cy="0" r="2.25" stroke-width="0.5"/><path d="M 0 -12.5 A 12.5 12.5 0 0 1 0 12.5" stroke-width="0.6"/></g><g transform="translate(264.25, 75)"><line x1="3.75" y1="-9" x2="3.75" y2="9" stroke-width="0.8"/><circle cx="0" cy="0" r="2.25" stroke-width="0.5"/><path d="M 0 -12.5 A 12.5 12.5 0 0 0 0 12.5" stroke-width="0.6"/></g></g>
+                        <g class="court-lines" stroke="var(--color-primary)" fill="none"><g transform="translate(15.75, 75)"><line x1="-3.75" y1="-9" x2="-3.75" y2="9" stroke-width="0.8"/><circle cx="0" cy="0" r="2.25" stroke-width="0.5"/><path d="M 0 -12.5 A 12.5 12.5 0 0 1 0 12.5" stroke-width="0.6"/></g><g transform="translate(264.25, 75)"><line x1="3.75" y1="-9" x2="3.75" y2="9" stroke-width="0.8"/><circle cx="0" cy="0" r="2.25" stroke-width="0.5"/><path d="M 0 -12.5 A 12.5 12.5 0 0 0 0 12.5" stroke-width="0.6"/></g></g>
                     </svg>
                     </div>
                     <canvas id="basketball-court"></canvas>

@@ -1,31 +1,31 @@
-            // --- GESTION DE L'ACCUEIL ---
+ï»¿            // --- GESTION DE L'ACCUEIL ---
             const btnToggleCalendar = document.getElementById('hub-toggle-calendar');
             const btnTogglePlans = document.getElementById('hub-toggle-plans');
             
             const isCalendarShown = localStorage.getItem('hubShowCalendar') !== 'false';
             const isPlansShown = localStorage.getItem('hubShowPlans') !== 'false';
             
-            if (isCalendarShown) { btnToggleCalendar.textContent = 'Désactiver'; btnToggleCalendar.classList.add('active'); }
-            if (isPlansShown) { btnTogglePlans.textContent = 'Désactiver'; btnTogglePlans.classList.add('active'); }
+            if (isCalendarShown) { btnToggleCalendar.textContent = 'DÃ©sactiver'; btnToggleCalendar.classList.add('active'); }
+            if (isPlansShown) { btnTogglePlans.textContent = 'DÃ©sactiver'; btnTogglePlans.classList.add('active'); }
 
             btnToggleCalendar.addEventListener('click', () => {
                 const willShow = btnToggleCalendar.textContent === 'Activer';
                 localStorage.setItem('hubShowCalendar', willShow);
-                btnToggleCalendar.textContent = willShow ? 'Désactiver' : 'Activer';
+                btnToggleCalendar.textContent = willShow ? 'DÃ©sactiver' : 'Activer';
                 btnToggleCalendar.classList.toggle('active', willShow);
             });
 
             btnTogglePlans.addEventListener('click', () => {
                 const willShow = btnTogglePlans.textContent === 'Activer';
                 localStorage.setItem('hubShowPlans', willShow);
-                btnTogglePlans.textContent = willShow ? 'Désactiver' : 'Activer';
+                btnTogglePlans.textContent = willShow ? 'DÃ©sactiver' : 'Activer';
                 btnTogglePlans.classList.toggle('active', willShow);
             });
 
             // --- TRI DES BOUTONS ---
             const defaultButtonOrder = [
                 { id: 'board', label: 'Playbook' },
-                { id: 'library', label: 'Bibliothèque' },
+                { id: 'library', label: 'BibliothÃ¨que' },
                 { id: 'planner', label: 'Planificateur' },
                 { id: 'sheet', label: 'Fiches' },
                 { id: 'calendar', label: 'Calendrier' },
@@ -34,7 +34,7 @@
                 { id: 'export', label: 'Exporter' },
                 { id: 'import', label: 'Restaurer' },
                 { id: 'drive', label: 'Google Drive' },
-                { id: 'settings', label: 'Paramètres' },
+                { id: 'settings', label: 'ParamÃ¨tres' },
                 { id: 'help', label: 'Aide' }
             ];
             

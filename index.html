@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
@@ -15,11 +15,13 @@
 </head>
 <body>
 
+    <svg width="0" height="0" style="position:absolute; width:0; height:0;"><defs><linearGradient id="gold-gradient" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#9C7531"/><stop offset="30%" stop-color="#BB9243"/><stop offset="50%" stop-color="#EBD094"/><stop offset="70%" stop-color="#BB9243"/><stop offset="100%" stop-color="#75551E"/></linearGradient>
+<linearGradient id="crab-gradient" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#5A1C30"/><stop offset="30%" stop-color="#72243D"/><stop offset="50%" stop-color="#A53558"/><stop offset="70%" stop-color="#72243D"/><stop offset="100%" stop-color="#401422"/></linearGradient></defs></svg>
     <header class="app-header">
         <div style="display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; width: 100%;">
             <div style="width: 40px;"></div> <!-- Spacer -->
             <div style="text-align: center;">
-                <h1>ORB <span class="highlight">TACTICAL BOARD</span></h1>
+                <img src="logo.png" alt="ORB Logo" style="height: 50px; vertical-align: middle; margin-right: 15px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));"><h1 style="display:inline-block; vertical-align: middle; margin: 0;">TACTICAL <span class="highlight">BOARD</span></h1>
             </div>
             <div style="width: 40px;"></div> <!-- Spacer for symmetry -->
         </div>
@@ -48,7 +50,7 @@
                     <div class="icon-wrapper">
                         <svg viewBox="0 0 24 24"><path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M15.8,11.5L14.3,10L8,16.3V17.8H9.5L15.8,11.5M16.4,10.9C16.6,10.7 16.6,10.3 16.4,10.1L15.6,9.3C15.4,9.1 15,9.1 14.8,9.3L13.8,10.3L15.3,11.8L16.4,10.9Z"/></svg>
                     </div>
-                    <span>Éditeur de Fiches </span>
+                    <span>Éditeur de Fiches</span>
                 </a>
 
                 <a href="modules/calendar/calendar.html" class="nav-card" data-id="calendar">
@@ -81,8 +83,8 @@
                         <span id="drive-login-text" style="color: var(--color-primary); font-size: 1.0em; font-weight: bold;">Google Drive</span>
                     </button>
                     <div id="drive-actions" style="display: none; width: 100%; margin-top: 10px; gap: 5px; flex-direction: column;">
-                        <button id="btn-drive-push" class="drive-action-btn">↑ Forcer l'envoi</button>
-                        <button id="btn-drive-pull" class="drive-action-btn">↓ Restaurer</button>
+                        <button id="btn-drive-push" class="drive-action-btn">â†‘ Forcer l'envoi</button>
+                        <button id="btn-drive-pull" class="drive-action-btn">â†“ Restaurer</button>
                     </div>
                 </div>
 
@@ -132,7 +134,7 @@
     <div id="hub-edit-modal" class="modal-overlay hidden" style="position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.8); z-index:9000; display:flex; align-items:center; justify-content:center;">
         <div style="background:var(--color-container); padding:25px; border-radius:12px; width:400px; border:1px solid var(--color-border); text-align: center;">
             <h3 style="margin-top:0; color:var(--color-primary);">Modification Hub</h3>
-            <p style="color:var(--color-text); opacity:0.8; margin-bottom:20px; font-size: 0.9em;">Sélectionnez les widgets à afficher sur votre accueil.</p>
+            <p style="color:var(--color-text); opacity:0.8; margin-bottom:20px; font-size: 0.9em;">Sélectionnez les widgets à  afficher sur votre accueil.</p>
             
             <div style="display:flex; flex-direction:column; gap:15px; text-align: left; margin-bottom: 20px;">
                 <label style="display: flex; align-items: center; gap: 10px; cursor: pointer; font-size: 1.1em; color: var(--color-text);">
@@ -147,7 +149,7 @@
             
             <div style="display: flex; gap: 10px; justify-content: center;">
                 <button id="close-hub-edit" class="btn-icon" style="color:var(--color-text); padding:8px 15px; border: 1px solid var(--color-border); border-radius: 6px;">Annuler</button>
-                <button id="save-hub-edit" class="btn-primary" style="padding:8px 20px;">Enregistrer</button>
+                <button id="save-hub-edit" class="btn-primary" style="padding:8px 20px;">enregistréer</button>
             </div>
         </div>
     </div>
@@ -393,7 +395,7 @@
           console.log('Service Worker enregistré avec succès:', registration.scope);
         })
         .catch((error) => {
-          console.log('Échec de l\'enregistrement du Service Worker:', error);
+console.log('Échec de l\'enregistrement du Service Worker:', error);
         });
     });
   }

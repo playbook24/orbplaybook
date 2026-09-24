@@ -1,4 +1,4 @@
-/**
+﻿/**
  * core/sync.js
  * Gestion de la synchronisation avec Google Drive (appDataFolder)
  */
@@ -87,9 +87,9 @@ const ORBSync = {
             document.body.appendChild(toast);
         }
         toast.innerHTML = message;
-        toast.style.background = isSuccess ? '#BFA98D' : '#111111';
-        toast.style.color = isSuccess ? '#111111' : '#BFA98D';
-        toast.style.border = '1px solid #BFA98D';
+        toast.style.background = isSuccess ? '#BB9243' : '#111111';
+        toast.style.color = isSuccess ? '#111111' : '#BB9243';
+        toast.style.border = '1px solid #BB9243';
         toast.style.opacity = '1';
         toast.style.transform = 'translateY(0)';
 
@@ -266,7 +266,7 @@ const ORBSync = {
             if (pushBtn) {
                 let oldText = pushBtn.innerHTML;
                 pushBtn.innerHTML = "Sauvegardé !";
-                pushBtn.style.background = "#BFA98D";
+                pushBtn.style.background = "#BB9243";
                 pushBtn.style.color = "#111111";
                 setTimeout(() => {
                     pushBtn.innerHTML = oldText.includes("Sauvegardé") ? "↑ Forcer l'envoi" : oldText;

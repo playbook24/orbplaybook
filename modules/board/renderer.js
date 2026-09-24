@@ -1,6 +1,6 @@
-/**
+﻿/**
  * renderer.js
- * Gère le dessin sur le Canvas (V4 avec tous les outils V3)
+ * GÃ¨re le dessin sur le Canvas (V4 avec tous les outils V3)
  */
 
 window.ORB.renderer = {
@@ -10,7 +10,7 @@ window.ORB.renderer = {
         if (!window.ORB.canvas) return logicalPoint;
         const rect = window.ORB.canvas.getBoundingClientRect();
         
-        // On vérifie le type de terrain sauvegardé dans l'état
+        // On vÃ©rifie le type de terrain sauvegardÃ© dans l'Ã©tat
         const isHalf = window.ORB.playbookState && window.ORB.playbookState.courtType === 'half';
         
         // NOUVEAU : Dimensions logiques distinctes (150x140 pour le vertical)
@@ -248,7 +248,7 @@ window.ORB.renderer = {
         const size = options.size || 14;
         
         p_ctx.font = `bold ${size}px "Roboto", "Arial", sans-serif`;
-        p_ctx.fillStyle = isSelected ? '#FFD700' : (options.color || '#212121');
+        p_ctx.fillStyle = isSelected ? '#FFD700' : (options.color || '#BB9243');
         p_ctx.textAlign = 'center';
         p_ctx.textBaseline = 'middle';
         p_ctx.fillText(options.text, x, y);
@@ -263,7 +263,7 @@ window.ORB.renderer = {
         p_ctx.save();
         p_ctx.globalAlpha = 1;
         const isThumb = !!(window.ORB && window.ORB.renderer && window.ORB.renderer.isThumbnailMode);
-        p_ctx.strokeStyle = isSelected ? '#FFD700' : (options.color || '#212121');
+        p_ctx.strokeStyle = isSelected ? '#FFD700' : (options.color || '#BB9243');
         p_ctx.lineWidth = (options.width || 2.5) * (isThumb ? 1.5 : 1);
         p_ctx.lineCap = 'round';
         p_ctx.lineJoin = 'round';
@@ -310,7 +310,7 @@ window.ORB.renderer = {
             nearEndPoint = pixelPoints[pixelPoints.length - 3] || pixelPoints[0];
         }
         const angle = Math.atan2(endPoint.y - nearEndPoint.y, endPoint.x - nearEndPoint.x);
-        p_ctx.fillStyle = isSelected ? '#FFD700' : (options.color || '#212121');
+        p_ctx.fillStyle = isSelected ? '#FFD700' : (options.color || '#BB9243');
         p_ctx.strokeStyle = p_ctx.fillStyle;
         p_ctx.lineWidth = 2;
         

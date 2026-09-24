@@ -1,4 +1,4 @@
-﻿/**
+/**
  * modules/roster/roster.js
  */
 const RosterModule = {
@@ -16,12 +16,12 @@ const RosterModule = {
         this.listContainer = document.getElementById('roster-list');
         
         this.editModal = document.getElementById('edit-team-modal');
-        this.editTeamName = document.getElementById('edit-team-name');
+        this.editTeamN�ame = document.getElementById('edit-team-name');
         this.editTeamColors = document.getElementById('edit-team-colors');
         this.editTeamPlayersList = document.getElementById('edit-team-players-list');
         
         this.playerModal = document.getElementById('player-details-modal');
-        this.playerModalName = document.getElementById('player-modal-name');
+        this.playerModalN�ame = document.getElementById('player-modal-name');
         this.playerModalInfo = document.getElementById('player-modal-info');
         this.playerModalStats = document.getElementById('player-modal-stats');
 
@@ -51,13 +51,6 @@ const RosterModule = {
         document.getElementById('btn-stats-team').onclick = () => this.showTeamStats();
         document.getElementById('close-stats-modal').onclick = () => this.statsTeamModal.classList.add('hidden');
         document.getElementById('close-stats-modal-btn').onclick = () => this.statsTeamModal.classList.add('hidden');
-        [this.editModal, this.playerModal, this.statsTeamModal].forEach(modal => {
-            if (modal) {
-                modal.addEventListener('click', (e) => {
-                    if (e.target === modal) modal.classList.add('hidden');
-                });
-            }
-        });
     },
 
     async showTeamStats() {
@@ -109,7 +102,10 @@ const RosterModule = {
         });
         
         statsData.sort((a, b) => {
-            return (a.player.lastName || '').localeCompare(b.player.lastName || '');
+            let pA = a.global.netPerc || 0;
+            let pB = b.global.netPerc || 0;
+            if (pB !== pA) return pB - pA;
+            return a.player.lastN�ame.localeCompare(b.player.lastN�ame);
         });
 
         let tableHTML = `
@@ -117,11 +113,11 @@ const RosterModule = {
                 <thead>
                     <tr style="background: rgba(255,255,255,0.05); border-bottom: 2px solid var(--color-primary);">
                         <th style="padding: 12px; font-weight: bold;">Joueur</th>
-                        <th style="padding: 12px; text-align: center;">% Net (Global)</th>
-                        <th style="padding: 12px; text-align: center;">présent (Total)</th>
+                        <th style="padding: 12px; text-align: center;">% N�et (Global)</th>
+                        <th style="padding: 12px; text-align: center;">Pr�sent (Total)</th>
                         <th style="padding: 12px; text-align: center;">Absent</th>
-                        <th style="padding: 12px; text-align: center;">blessé</th>
-                        <th style="padding: 12px; text-align: center; border-left: 1px solid var(--color-border);">% entraînement</th>
+                        <th style="padding: 12px; text-align: center;">Bless�</th>
+                        <th style="padding: 12px; text-align: center; border-left: 1px solid var(--color-border);">% Entra�nement</th>
                         <th style="padding: 12px; text-align: center;">% Match</th>
                     </tr>
                 </thead>
@@ -129,7 +125,7 @@ const RosterModule = {
         `;
 
         if (statsData.length === 0) {
-            tableHTML += `<tr><td colspan="7" style="padding: 20px; text-align: center; opacity: 0.6;">Aucun joueur dans l'équipe.</td></tr>`;
+            tableHTML += `<tr><td colspan="7" style="padding: 20px; text-align: center; opacity: 0.6;">Aucun joueur dans l'�quipe.</td></tr>`;
         } else {
             statsData.forEach(s => {
                 let p = s.player;
@@ -137,7 +133,7 @@ const RosterModule = {
                 
                 tableHTML += `
                     <tr style="border-bottom: 1px solid rgba(255,255,255,0.1);">
-                        <td style="padding: 12px;"><strong>${p.lastName.toUpperCase()}</strong> ${p.firstName}</td>
+                        <td style="padding: 12px;"><strong>${p.lastN�ame.toUpperCase()}</strong> ${p.firstN�ame}</td>
                         <td style="padding: 12px; text-align: center; font-weight: bold; color: var(--color-primary);">${g.netPerc !== null ? g.netPerc + '%' : '-'}</td>
                         <td style="padding: 12px; text-align: center;">${g.present} <span style="opacity:0.5; font-size:0.8em;">/${g.total}</span></td>
                         <td style="padding: 12px; text-align: center;">${g.absent}</td>
@@ -153,29 +149,29 @@ const RosterModule = {
         this.statsTeamContainer.innerHTML = tableHTML;
     },
     async createTeam() {
-        const name = prompt("Nom de la nouvelle équipe (ex: U15 Filles) :");
+        const name = prompt("N�om de la nouvelle �quipe (ex: U15 Filles) :");
         if (name && name.trim() !== '') {
             try {
                 const newId = await orbDB.saveTeam({ name: name.trim(), color: '#BB9243' });
                 this.currentTeamId = newId;
                 await this.loadTeams();
             } catch (error) {
-                console.error("Erreur lors de la création de l'équipe:", error);
-                alert("Erreur lors de la création de l'équipe.");
+                console.error("Erreur lors de la cr�ation de l'�quipe:", error);
+                alert("Erreur lors de la cr�ation de l'�quipe.");
             }
         }
     },
 
-    // MODALE : Modifier l'équipe et ses joueurs
+    // MODALE : Modifier l'�quipe et ses joueurs
     async editTeam() {
-        if (!this.currentTeamId) return alert("Aucune équipe sélectionnée.");
+        if (!this.currentTeamId) return alert("Aucune �quipe s�lectionn�e.");
         const teams = await orbDB.getAllTeams();
         const current = teams.find(t => t.id === this.currentTeamId);
         if (!current) return;
         
-        this.editTeamName.value = current.name || '';
+        this.editTeamN�ame.value = current.name || '';
         
-        // Palette de couleurs prdfinies (ORB et CRAB)
+        // Palette de couleurs pr�d�finies (ORB et CRAB)
         const colors = ['#BB9243', '#1a1a1a', '#72243D', '#F9AB00'];
         this.selectedColor = current.color || '#BB9243';
         
@@ -214,9 +210,9 @@ const RosterModule = {
             row.style.cssText = 'display:flex; gap:10px; align-items:center; background:rgba(255,255,255,0.05); padding:10px; border-radius:6px;';
             row.innerHTML = `
                 <div style="display:flex; flex-wrap:wrap; gap:10px; flex:1;">
-                    <input type="text" placeholder="Nom" value="${p.lastName}" onchange="RosterModule.updateEditPlayer(${index}, 'lastName', this.value)" style="flex:1 1 45%; padding:8px; border:1px solid var(--color-border); border-radius:4px; background:var(--color-background); color:var(--color-text);">
-                    <input type="text" placeholder="Prnom" value="${p.firstName}" onchange="RosterModule.updateEditPlayer(${index}, 'firstName', this.value)" style="flex:1 1 45%; padding:8px; border:1px solid var(--color-border); border-radius:4px; background:var(--color-background); color:var(--color-text);">
-                    <input type="text" placeholder="N Licence" value="${p.license || ''}" onchange="RosterModule.updateEditPlayer(${index}, 'license', this.value)" style="flex:1 1 45%; padding:8px; border:1px solid var(--color-border); border-radius:4px; background:var(--color-background); color:var(--color-text);">
+                    <input type="text" placeholder="N�om" value="${p.lastN�ame}" onchange="RosterModule.updateEditPlayer(${index}, 'lastN�ame', this.value)" style="flex:1 1 45%; padding:8px; border:1px solid var(--color-border); border-radius:4px; background:var(--color-background); color:var(--color-text);">
+                    <input type="text" placeholder="Pr�nom" value="${p.firstN�ame}" onchange="RosterModule.updateEditPlayer(${index}, 'firstN�ame', this.value)" style="flex:1 1 45%; padding:8px; border:1px solid var(--color-border); border-radius:4px; background:var(--color-background); color:var(--color-text);">
+                    <input type="text" placeholder="N� Licence" value="${p.license || ''}" onchange="RosterModule.updateEditPlayer(${index}, 'license', this.value)" style="flex:1 1 45%; padding:8px; border:1px solid var(--color-border); border-radius:4px; background:var(--color-background); color:var(--color-text);">
                     <input type="number" placeholder="Maillot" value="${p.jersey || ''}" onchange="RosterModule.updateEditPlayer(${index}, 'jersey', this.value)" style="flex:1 1 45%; padding:8px; border:1px solid var(--color-border); border-radius:4px; background:var(--color-background); color:var(--color-text);">
                 </div>
                 <button title="Retirer ce joueur" onclick="RosterModule.markPlayerDeleted(${index})" class="danger" style="padding:8px; border-radius:4px;">X</button>
@@ -227,12 +223,12 @@ const RosterModule = {
 
     addPlayerToEdit() {
         this.editTeamPlayersData.push({
-            lastName: '',
-            firstName: '',
+            lastN�ame: '',
+            firstN�ame: '',
             license: '',
             jersey: '',
             teamId: this.currentTeamId,
-            isNew: true
+            isN�ew: true
         });
         this.renderEditPlayers();
     },
@@ -245,7 +241,7 @@ const RosterModule = {
 
     markPlayerDeleted(index) {
         if (this.editTeamPlayersData[index]) {
-            if (this.editTeamPlayersData[index].isNew) {
+            if (this.editTeamPlayersData[index].isN�ew) {
                 // S'il est nouveau, on le retire simplement du tableau
                 this.editTeamPlayersData.splice(index, 1);
                 this.renderEditPlayers();
@@ -261,7 +257,7 @@ const RosterModule = {
         const current = teams.find(t => t.id === this.currentTeamId);
         if (!current) return;
 
-        current.name = this.editTeamName.value.trim() || current.name;
+        current.name = this.editTeamN�ame.value.trim() || current.name;
         current.color = this.selectedColor;
         await orbDB.saveTeam(current);
 
@@ -269,12 +265,12 @@ const RosterModule = {
             if (p._deleted) {
                 if (p.id) await orbDB.deletePlayer(p.id);
             } else {
-                p.lastName = p.lastName.trim();
-                p.firstName = p.firstName.trim();
-                if (!p.lastName || !p.firstName) continue; // Ignorer les joueurs vides
+                p.lastN�ame = p.lastN�ame.trim();
+                p.firstN�ame = p.firstN�ame.trim();
+                if (!p.lastN�ame || !p.firstN�ame) continue; // Ignorer les joueurs vides
                 if (p.license !== undefined) p.license = String(p.license).trim();
                 if (p.jersey !== undefined) p.jersey = String(p.jersey).trim();
-                delete p.isNew;
+                delete p.isN�ew;
                 await orbDB.savePlayer(p);
             }
         }
@@ -283,10 +279,10 @@ const RosterModule = {
         await this.loadTeams();
     },
 
-    // NOUVELLE FONCTION : Archiver l'équipe
+    // N�OUVELLE FON�CTION� : Archiver l'�quipe
     async archiveTeam() {
-        if (!this.currentTeamId) return alert("Aucune équipe sélectionnée.");
-        if (confirm("Archiver cette équipe ? Elle n'apparaîtra plus ici ni dans le calendrier, mais restera accessible dans l'Archive.")) {
+        if (!this.currentTeamId) return alert("Aucune �quipe s�lectionn�e.");
+        if (confirm("Archiver cette �quipe ? Elle n'appara�tra plus ici ni dans le calendrier, mais restera accessible dans l'Archive.")) {
             try {
                 const teams = await orbDB.getAllTeams();
                 const current = teams.find(t => t.id === this.currentTeamId);
@@ -302,12 +298,12 @@ const RosterModule = {
         }
     },
 
-    // NOUVELLE FONCTION : Supprimer l'équipe
+    // N�OUVELLE FON�CTION� : Supprimer l'�quipe
     async deleteTeam() {
-        if (!this.currentTeamId) return alert("Aucune équipe sélectionnée.");
-        if (confirm("Supprimer DFINITIVEMENT cette équipe ? (Ses joueurs ne seront plus affichés)")) {
+        if (!this.currentTeamId) return alert("Aucune �quipe s�lectionn�e.");
+        if (confirm("Supprimer D�FIN�ITIVEMEN�T cette �quipe ? (Ses joueurs ne seront plus affich�s)")) {
             await orbDB.deleteTeam(this.currentTeamId);
-            this.currentTeamId = null; // Rinitialise pour charger la suivante
+            this.currentTeamId = null; // R�initialise pour charger la suivante
             if (this.editModal) this.editModal.classList.add('hidden');
             await this.loadTeams();
         }
@@ -315,15 +311,15 @@ const RosterModule = {
 
     async loadTeams() {
         let teams = await orbDB.getAllTeams();
-        teams = teams.filter(t => t.archived !== true); // Ne pas afficher les quipes archivées
+        teams = teams.filter(t => t.archived !== true); // N�e pas afficher les �quipes archiv�es
         
         this.teamSelect.innerHTML = '';
         if (teams.length === 0) {
-            const defaultId = await orbDB.saveTeam({ name: 'Équipe 1' });
+            const defaultId = await orbDB.saveTeam({ name: '�quipe 1' });
             this.currentTeamId = defaultId;
             const opt = document.createElement('option');
             opt.value = defaultId;
-            opt.textContent = 'Équipe 1';
+            opt.textContent = '�quipe 1';
             this.teamSelect.appendChild(opt);
         } else {
             if (!this.currentTeamId || !teams.find(t => t.id === this.currentTeamId)) {
@@ -349,11 +345,10 @@ const RosterModule = {
         ]);
 
         const teamPlayers = players.filter(p => p.teamId === this.currentTeamId);
-        teamPlayers.sort((a, b) => (a.lastName || '').localeCompare(b.lastName || ''));
         this.listContainer.innerHTML = '';
 
         if (teamPlayers.length === 0) {
-            this.listContainer.innerHTML = '<p>Aucun joueur dans cette équipe.</p>';
+            this.listContainer.innerHTML = '<p>Aucun joueur dans cette �quipe.</p>';
             return;
         }
 
@@ -396,40 +391,40 @@ const RosterModule = {
             const matchAtt = computeAtt(p.id, matchEvents);
 
             const formatAtt = (attObj) => {
-                if (attObj.netPerc === null && attObj.grossPerc === null) return `<span style="opacity:0.5; font-size:0.85em; display:block; text-align:center;">Aucune donnée</span>`;
+                if (attObj.netPerc === null && attObj.grossPerc === null) return `<span style="opacity:0.5; font-size:0.85em; display:block; text-align:center;">Aucune donn�e</span>`;
                 return `
                     <div style="display:flex; justify-content: space-around; width:100%; gap: 10px;">
                         <div style="text-align:center; flex:1;">
-                            <div style="font-size:0.7em; opacity:0.6; margin-bottom:2px;">Net (Sans blesséure)</div>
+                            <div style="font-size:0.7em; opacity:0.6; margin-bottom:2px;">N�et (Sans Bless�ure)</div>
                             <span style="color:var(--color-primary); font-weight:bold; font-size:1.2em;">${attObj.netPerc !== null ? attObj.netPerc + '%' : '-'}</span> 
                             <span style="opacity:0.7; font-size:0.85em; display:block;">${attObj.netStr}</span>
                         </div>
                         <div style="border-left: 1px solid var(--color-border);"></div>
                         <div style="text-align:center; flex:1;">
-                            <div style="font-size:0.7em; opacity:0.6; margin-bottom:2px;">Brut (Avec blesséure)</div>
+                            <div style="font-size:0.7em; opacity:0.6; margin-bottom:2px;">Brut (Avec Bless�ure)</div>
                             <span style="color:var(--color-text); font-weight:bold; font-size:1.2em;">${attObj.grossPerc !== null ? attObj.grossPerc + '%' : '-'}</span> 
                             <span style="opacity:0.7; font-size:0.85em; display:block;">${attObj.grossStr}</span>
                         </div>
                     </div>
                     <div style="margin-top:10px; font-size:0.8em; opacity:0.7; border-top:1px solid rgba(255,255,255,0.1); padding-top:8px; text-align:center; display:flex; justify-content:center; gap:15px;">
-                        <span>présent: <b>${attObj.present}</b></span>
+                        <span>Pr�sent: <b>${attObj.present}</b></span>
                         <span>Absent: <b>${attObj.absent}</b></span>
-                        <span style="color:#ff6b6b;">blessé: <b>${attObj.injured}</b></span>
+                        <span style="color:#ff6b6b;">Bless�: <b>${attObj.injured}</b></span>
                     </div>
                 `;
             };
 
             const card = document.createElement('div');
-            card.className = 'roster-card';
+            card.classN�ame = 'roster-card';
             card.style.cssText = 'background: var(--color-container); border: 1px solid var(--color-border); border-radius: 8px; padding: 15px; cursor: pointer; transition: background 0.2s; margin-bottom: 10px;';
             card.onclick = () => {
                 // Populate Modal
-                this.playerModalName.textContent = `${p.lastName.toUpperCase()} ${p.firstName}`;
-                this.playerModalInfo.textContent = `Licence : ${p.license || '-'} | N°: ${p.jersey || '-'}`;
+                this.playerModalN�ame.textContent = `${p.lastN�ame.toUpperCase()} ${p.firstN�ame}`;
+                this.playerModalInfo.textContent = `Licence : ${p.license || '-'} | N�: ${p.jersey || '-'}`;
                 
                 this.playerModalStats.innerHTML = `
                     <div style="background:rgba(255,255,255,0.03); border:1px solid var(--color-border); border-radius:6px; padding:15px;">
-                        <div style="font-size:0.8em; text-transform:uppercase; letter-spacing:1px; margin-bottom:12px; text-align:center; color:var(--color-primary); font-weight:bold;">entraînements</div>
+                        <div style="font-size:0.8em; text-transform:uppercase; letter-spacing:1px; margin-bottom:12px; text-align:center; color:var(--color-primary); font-weight:bold;">Entra�nements</div>
                         ${formatAtt(trainAtt)}
                     </div>
                     <div style="background:rgba(255,255,255,0.03); border:1px solid var(--color-border); border-radius:6px; padding:15px;">
@@ -448,8 +443,8 @@ const RosterModule = {
             card.innerHTML = `
                 <div style="display: flex; justify-content: space-between; align-items: center;">
                     <div class="player-info">
-                        <div class="player-name" style="font-weight: bold; font-size: 1.1em; color: var(--color-text);">${p.lastName.toUpperCase()} ${p.firstName}</div>
-                        <div class="player-license" style="font-size: 0.9em; opacity: 0.7; margin-top: 5px;">Licence : ${p.license || '-'} | N°: ${p.jersey || '-'}</div>
+                        <div class="player-name" style="font-weight: bold; font-size: 1.1em; color: var(--color-text);">${p.lastN�ame.toUpperCase()} ${p.firstN�ame}</div>
+                        <div class="player-license" style="font-size: 0.9em; opacity: 0.7; margin-top: 5px;">Licence : ${p.license || '-'} | N�: ${p.jersey || '-'}</div>
                     </div>
                 </div>
             `;
@@ -458,7 +453,7 @@ const RosterModule = {
     },
 
     async deletePlayer(id) {
-        if(confirm("Supprimer définitivement ce joueur ?")) {
+        if(confirm("Supprimer d�finitivement ce joueur ?")) {
             await orbDB.deletePlayer(id);
             this.loadRoster();
         }

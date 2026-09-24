@@ -1,4 +1,4 @@
-/**
+﻿/**
  * modules/planner/planner.js
  * V5 - Planificateur avec Navigation par Dossiers
  */
@@ -697,7 +697,7 @@ const PlannerModule = {
         const { jsPDF } = window.jspdf;
         const doc = new jsPDF();
         
-        doc.setFillColor('#BFA98D'); 
+        doc.setFillColor('#121212'); 
         doc.rect(0, 0, 210, 25, 'F');
         doc.setFont("helvetica", "bold"); doc.setFontSize(22); doc.setTextColor('#000000');
         doc.text((plan.name || 'Séance').toUpperCase(), 105, 16, { align: 'center' });

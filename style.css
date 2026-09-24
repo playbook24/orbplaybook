@@ -11,8 +11,10 @@
     --font-body: 'Montserrat', sans-serif;
 
     /* --- L'OR D'ORIGINE --- */
-    --color-primary: #BFA98D; 
-    --color-primary-hover: #d1bc9f; 
+    --color-primary: #BB9243;
+    --color-court-bg: #121212;
+    --gradient-primary: linear-gradient(135deg, #9C7531 0%, #BB9243 30%, #EBD094 50%, #BB9243 70%, #75551E 100%); 
+    --color-primary-hover: #e5bd5c; 
     
     /* --- THÃˆME SOMBRE (Par dÃ©faut) --- */
     --color-secondary: #121212; /* Noir du Header */
@@ -64,7 +66,7 @@ h1 {
     margin: 0; letter-spacing: 2px; font-size: 2em;
     text-transform: uppercase; color: var(--color-text-on-dark);
 }
-h1 span.highlight, h1 span { color: var(--color-primary); }
+h1 span.highlight, h1 span { background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
 /* ==========================================
    GRILLE DU DASHBOARD & CARTES (FIX ORGANISATION)
@@ -100,14 +102,9 @@ h1 span.highlight, h1 span { color: var(--color-primary); }
     border-color: var(--color-primary);
 }
 
-/* FIX DES ICÃ”NES GÃ‰ANTES */
-.nav-card svg {
-    width: 36px !important;
-    height: 36px !important;
-    margin-bottom: 15px;
-    fill: var(--color-primary);
-    transition: transform 0.2s;
-}
+/* FIX DES ICÃƒâ€NES GÃ‰ANTES */
+.nav-card svg { width: 36px !important; height: 36px !important; margin-bottom: 15px; fill: url(#gold-gradient); transition: transform 0.2s, fill 0.2s; }
+body.crab-mode .nav-card svg { fill: url(#crab-gradient); }
 .nav-card:hover svg { transform: scale(1.1); }
 
 .nav-card span { font-size: 1.1em; font-weight: 600; }
@@ -166,7 +163,7 @@ input:focus, textarea:focus, select:focus { border-color: var(--color-primary); 
 
 .danger { color: var(--color-primary) !important; border-color: var(--color-primary) !important; }
 button.danger { background: transparent; border: 1px solid var(--color-primary); transition: all 0.2s; }
-button.danger:hover { background: rgba(191, 169, 141, 0.1); } /* Effet de survol avec un fond or lÃ©ger */
+button.danger:hover { background: rgba(187, 146, 67, 0.1); } /* Effet de survol avec un fond or lÃ©ger */
 
 /* ==========================================
    MODE CLAIR (LIGHT MODE)
@@ -202,13 +199,11 @@ body.crab-mode .app-header {
     background-color: var(--color-secondary);
 }
 
-body.crab-mode h1 {
-    color: #212121; /* Texte noir sur fond jaune */
+body.crab-mode h1, body.crab-mode .header-back-btn, body.crab-mode .app-header a {
+    color: #212121 !important; /* Texte noir sur fond jaune */
 }
 
-body.crab-mode h1 span.highlight {
-    color: var(--color-primary); /* Le "Tactical Board" en bordeaux */
-}
+body.crab-mode h1 span.highlight { background: none; -webkit-background-clip: unset; -webkit-text-fill-color: unset; color: var(--color-primary); }
 /* ==========================================
    TERRAIN (COURT SVG) - ADAPTATION MODE CRAB
    ========================================== */
@@ -237,7 +232,7 @@ body.crab-mode .court-text-crab {
     color: var(--color-text-on-dark);
 }
 
-/* En Mode clair : Force la flÃ¨che et les titres du Header Ã  devenir foncÃ©s pour Ãªtre lisibles */
+/* En Mode clair : Force la flÃ¨che et les titres du Header Ã  devenir foncÃ©s pour ÃƒÂªtre lisibles */
 body.light-mode .header-back-btn,
 body.light-mode .app-header h1,
 body.light-mode .app-header a {
@@ -357,6 +352,8 @@ body.light-mode .app-header a {
 .widget-card { background: var(--color-container); border-radius: 12px; padding: 20px; box-shadow: var(--shadow-soft); border: 1px solid var(--color-border); display: flex; flex-direction: column; }
 .widget-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--color-border); padding-bottom: 10px; margin-bottom: 15px; }
 .widget-header h3 { margin: 0; color: var(--color-primary); font-size: 1.2em; display: flex; align-items: center; gap: 8px; }
+.widget-header h3 svg { fill: url(#gold-gradient); }
+body.crab-mode .widget-header h3 svg { fill: url(#crab-gradient); }
 .widget-content { flex-grow: 1; overflow-y: auto; max-height: 250px; display: flex; flex-direction: column; gap: 10px; }
 .widget-item { background: rgba(0,0,0,0.2); padding: 12px; border-radius: 8px; border: 1px solid var(--color-border); cursor: pointer; transition: all 0.2s; color: var(--color-text); text-decoration: none; display: flex; align-items: center; justify-content: space-between; }
 .widget-item:hover { border-color: var(--color-primary); transform: translateX(5px); }
@@ -386,13 +383,17 @@ body.light-mode .app-header a {
 .widget-content::-webkit-scrollbar-track { background: transparent; }
 .widget-content::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: 4px; }
 .widget-content::-webkit-scrollbar-thumb:hover { background: var(--color-primary); }
-.widget-item:hover { transform: none !important; background: rgba(191, 169, 141, 0.1); }
+.widget-item:hover { transform: none !important; background: rgba(187, 146, 67, 0.1); }
 .nav-card:nth-child(8) { animation-delay: 0.4s !important; }
 .nav-card:nth-child(9) { animation-delay: 0.45s !important; }
 .nav-card:nth-child(10) { animation-delay: 0.5s !important; }
 .nav-card:nth-child(11) { animation-delay: 0.55s !important; }
 .nav-card:nth-child(12) { animation-delay: 0.6s !important; }
 
-body { background: radial-gradient(circle at 50% -10%, rgba(224, 180, 80, 0.35) 0%, var(--color-background) 60%); background-attachment: fixed; }
-body.light-mode { background: radial-gradient(circle at 50% -10%, rgba(224, 180, 80, 0.45) 0%, var(--color-background) 60%); background-attachment: fixed; }
-body.crab-mode { background: radial-gradient(circle at 50% -10%, rgba(114, 36, 61, 0.5) 0%, var(--color-background) 60%); background-attachment: fixed; }
+body { background-color: var(--color-background); background-image: linear-gradient(135deg, rgba(187, 146, 67, 0.15) 0%, transparent 30%), linear-gradient(315deg, rgba(187, 146, 67, 0.1) 0%, transparent 40%); background-attachment: fixed; }
+body.light-mode { background-color: var(--color-background); background-image: linear-gradient(135deg, rgba(187, 146, 67, 0.25) 0%, transparent 30%), linear-gradient(315deg, rgba(187, 146, 67, 0.15) 0%, transparent 40%); background-attachment: fixed; }
+body.crab-mode { background-color: var(--color-background); background-image: linear-gradient(135deg, rgba(114, 36, 61, 0.3) 0%, transparent 30%), linear-gradient(315deg, rgba(114, 36, 61, 0.2) 0%, transparent 40%); background-attachment: fixed; }
+
+.nav-card:nth-child(13) { animation-delay: 0.65s !important; }
+.nav-card:nth-child(14) { animation-delay: 0.7s !important; }
+.nav-card:nth-child(15) { animation-delay: 0.75s !important; }

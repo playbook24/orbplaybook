@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
@@ -21,8 +21,9 @@
     <main style="max-width: 1000px; margin: 40px auto; padding: 0 20px;">
         <div class="section-container" style="border-left: 4px solid var(--color-primary);">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px;">
-                <h3 style="margin: 0; border: none; padding: 0;">Équipe active</h3>
+                <h3 style="margin: 0; border: none; padding: 0;">équipe active</h3>
                 <div style="display: flex; gap: 10px;">
+                    <button id="btn-stats-team" class="btn-primary" style="padding: 8px 15px; background: transparent; border: 1px solid var(--color-primary); color: var(--color-primary);">Stats. Présence</button>
                     <button id="btn-edit-team" class="btn-primary" style="background: transparent; border: 1px solid var(--color-primary); color: var(--color-primary); padding: 8px 15px;">Modifier</button>
                     <button id="btn-archive-team" class="btn-primary" style="padding: 8px 15px;">Archiver</button>
                     <button id="btn-create-team" class="btn-primary" style="padding: 8px 15px;">Nouvelle équipe</button>
@@ -36,7 +37,7 @@
 
         <div id="edit-team-modal" class="modal-overlay hidden" style="position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.8); z-index:9000; display:flex; align-items:center; justify-content:center;">
             <div style="background:var(--color-container); padding:25px; border-radius:12px; width:600px; max-height:85vh; overflow-y:auto; border:1px solid var(--color-border); text-align: left;">
-                <h3 style="margin-top:0; color:var(--color-primary);">Modifier l'Équipe & Joueurs</h3>
+                <h3 style="margin-top:0; color:var(--color-primary);">Modifier l'équipe & Joueurs</h3>
                 
                 <div style="margin-bottom:20px;">
                     <label style="display:block; font-weight:bold; margin-bottom:8px; color:var(--color-text);">Nom de l'équipe :</label>
@@ -78,7 +79,7 @@
             <header style="display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 1px solid var(--color-border); padding-bottom: 15px; margin-bottom: 15px;">
                 <div>
                     <h3 id="player-modal-name" style="margin: 0; color: var(--color-primary); font-size: 1.4em;">Nom du Joueur</h3>
-                    <div id="player-modal-info" style="font-size: 0.9em; opacity: 0.7; margin-top: 5px;">Licence: - | N°: -</div>
+                    <div id="player-modal-info" style="font-size: 0.9em; opacity: 0.7; margin-top: 5px;">Licence: - | Né: -</div>
                 </div>
                 <button id="close-player-modal" class="btn-icon danger" style="background:transparent; border:none; cursor:pointer; color:var(--color-primary);"><svg viewBox="0 0 24 24" style="width:24px; height:24px; fill:currentColor;"><path d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z"/></svg></button>
             </header>
@@ -93,10 +94,28 @@
         </div>
     </div>
 
+    <!-- Modale Statistiques -->
+    <div id="stats-team-modal" class="modal-overlay hidden" style="position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.8); z-index:9000; display:flex; align-items:center; justify-content:center;">
+        <div class="modal-content" style="width: 95%; max-width: 1000px; background:var(--color-background); border:1px solid var(--color-border); border-radius:12px; padding:25px; box-shadow:0 10px 30px rgba(0,0,0,0.5); max-height:90vh; display:flex; flex-direction:column;">
+            <header style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--color-border); padding-bottom: 15px; margin-bottom: 20px;">
+                <h3 style="margin: 0; color: var(--color-primary); font-size: 1.4em;">Statistiques de Présence</h3>
+                <button id="close-stats-modal" class="btn-icon danger" style="background:transparent; border:none; cursor:pointer; color:var(--color-primary);"><svg viewBox="0 0 24 24" style="width:24px; height:24px; fill:currentColor;"><path d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z"/></svg></button>
+            </header>
+            
+            <div id="stats-team-container" style="flex: 1; overflow-y: auto;">
+                <!-- Table injectée par JS -->
+            </div>
+            
+            <div style="display: flex; justify-content: center; margin-top: 25px; border-top: 1px solid var(--color-border); padding-top: 15px; flex-shrink: 0;">
+                <button id="close-stats-modal-btn" class="btn-primary" style="padding: 10px 20px;">Fermer</button>
+            </div>
+        </div>
+    </div>
+
     <script src="../../core/db.js"></script>
     <script src="roster.js"></script>
     <script>
-        // Applique les thèmes sur toutes les pages
+        // Applique les thémes sur toutes les pages
         if (localStorage.getItem('theme') === 'light') document.body.classList.add('light-mode');
         if (localStorage.getItem('teamMode') === 'crab') document.body.classList.add('crab-mode');
     </script>

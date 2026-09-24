@@ -1,4 +1,4 @@
-/**
+﻿/**
  * modules/viewer/viewer.js
  * Logique du module de visualisation en lecture seule.
  */
@@ -84,12 +84,12 @@ const Viewer = {
     async loadPlaybook(id) {
         const playbook = await orbDB.getPlaybook(id);
         if (!playbook) {
-            this.emptyMessage.textContent = "Schéma introuvable.";
+            this.emptyMessage.textContent = "schema introuvable.";
             this.emptyMessage.style.display = 'block';
             return;
         }
 
-        this.title.textContent = playbook.name || "Schéma sans nom";
+        this.title.textContent = playbook.name || "schema sans nom";
         await this.renderPlaybookScenes(playbook);
     },
 
@@ -170,19 +170,19 @@ const Viewer = {
         for (let i = 0; i < pbData.scenes.length; i++) {
             const scene = pbData.scenes[i];
             
-            // Générer l'image de la scène
+            // Générer l'image de la scene
             const base64Image = await this.generateSceneImage(pbData, i);
             
             const sceneEl = document.createElement('div');
             sceneEl.className = 'scene-item';
             
             sceneEl.innerHTML = `
-                <h2 style="font-family: 'Anton', sans-serif; text-transform: uppercase; color: var(--color-primary); margin-top: 0; font-size: 1.5em; letter-spacing: 1px; margin-bottom: 15px;">
-                    ${pbData.name || 'Schéma'} - Scène ${i + 1}
+                <h2 style="font-family: 'Anton', sans-serif; text-transform: uppercase; color: var(--color-primary); margin-top: 0; font-size: 1.3em; letter-spacing: 2px; margin-bottom: 20px; background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+                    ${pbData.name || 'schéma'} - Scène ${i + 1}
                 </h2>
                 <img src="${base64Image}" class="scene-image">
                 ${scene.comments ? `
-                    <div class="scene-comment" style="margin-top: 20px; padding: 15px; background: rgba(255,255,255,0.05); border-left: 4px solid var(--color-primary); border-radius: 4px; width: 100%; text-align: left;">
+                    <div class="scene-comment" style="margin-top: 20px; padding: 15px; background: rgba(255,255,255,0.05); border-left: 4px solid var(--color-primary); border-radius: 4px; width: 80%; max-width: 800px; text-align: left; background: var(--color-container); box-shadow: var(--shadow-soft);">
                         <strong style="color: var(--color-primary); display: block; margin-bottom: 5px;">Notes :</strong>
                         ${scene.comments}
                     </div>
@@ -218,8 +218,8 @@ const Viewer = {
             const tCtx = tempC.getContext('2d');
 
             const isCrab = document.body.classList.contains('crab-mode');
-            const primaryColor = isCrab ? '#72243D' : '#BFA98D';
-            const secondaryColor = isCrab ? '#F9AB00' : '#212121';
+            const primaryColor = isCrab ? '#72243D' : '#121212';
+            const secondaryColor = isCrab ? '#F9AB00' : '#BB9243';
 
             tCtx.fillStyle = primaryColor;
             tCtx.fillRect(0, 0, drawW, drawH);

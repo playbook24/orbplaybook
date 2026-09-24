@@ -1,4 +1,4 @@
-/**
+﻿/**
  * modules/board/ui.js
  * Interface de l'éditeur tactique (Propriétés, Scènes, Outils, Exports).
  */
@@ -36,32 +36,32 @@ window.ORB.ui = {
             if (view === 'half') {
                 courtSvg.setAttribute('viewBox', '-10 -10 170 160');
                 courtSvg.innerHTML = `
-                    <rect x="-10" y="-10" width="170" height="160" fill="var(--color-primary)"/>
-                    <g class="court-lines" stroke="#212121" stroke-width="0.6" fill="none">
+                    <rect x="-10" y="-10" width="170" height="160" fill="var(--color-court-bg)"/>
+                    <g class="court-lines" stroke="var(--color-primary)" stroke-width="0.6" fill="none">
                         <rect x="0" y="0" width="150" height="140"/>
                         <rect x="46" y="0" width="58" height="50.5" />
                         <path d="M 46 50.5 A 18 18 0 0 0 104 50.5" />
                         <path d="M 6 0 L 6 29.1 A 67.5 67.5 0 0 0 144 29.1 L 144 0" />
                     </g>
-                    <g class="court-lines" stroke="#212121" fill="none" transform="translate(75, 15.75)">
+                    <g class="court-lines" stroke="var(--color-primary)" fill="none" transform="translate(75, 15.75)">
                         <line x1="-9" y1="-3.75" x2="9" y2="-3.75" stroke-width="0.8"/>
                         <circle cx="0" cy="0" r="2.25" stroke-width="0.5"/>
                         <path d="M -12.5 0 A 12.5 12.5 0 0 0 12.5 0" stroke-width="0.6"/>
                     </g>
-                    <path class="court-lines" d="M 57 140 A 18 18 0 0 1 93 140" stroke="#212121" stroke-width="0.6" fill="none"/>
+                    <path class="court-lines" d="M 57 140 A 18 18 0 0 1 93 140" stroke="var(--color-primary)" stroke-width="0.6" fill="none"/>
                 `;
             } else {
                 courtSvg.setAttribute('viewBox', '-10 -10 300 170');
                 courtSvg.innerHTML = `
-                    <rect x="-10" y="-10" width="300" height="170" fill="var(--color-primary)"/>
-                    <g class="court-lines" stroke="#212121" stroke-width="0.6" fill="none"><rect x="0" y="0" width="280" height="150"/><line x1="140" y1="0" x2="140" y2="150"/><rect x="0" y="50.5" width="58" height="49" /><path d="M 58 50.5 A 18 18 0 0 1 58 99.5" /><path d="M 0 6 L 29.1 6 A 67.5 67.5 0 0 1 29.1 144 L 0 144" /><rect x="222" y="50.5" width="58" height="49" /><path d="M 222 50.5 A 18 18 0 0 0 222 99.5" /><path d="M 280 6 L 250.9 6 A 67.5 67.5 0 0 0 250.9 144 L 280 144" /></g>
+                    <rect x="-10" y="-10" width="300" height="170" fill="var(--color-court-bg)"/>
+                    <g class="court-lines" stroke="var(--color-primary)" stroke-width="0.6" fill="none"><rect x="0" y="0" width="280" height="150"/><line x1="140" y1="0" x2="140" y2="150"/><rect x="0" y="50.5" width="58" height="49" /><path d="M 58 50.5 A 18 18 0 0 1 58 99.5" /><path d="M 0 6 L 29.1 6 A 67.5 67.5 0 0 1 29.1 144 L 0 144" /><rect x="222" y="50.5" width="58" height="49" /><path d="M 222 50.5 A 18 18 0 0 0 222 99.5" /><path d="M 280 6 L 250.9 6 A 67.5 67.5 0 0 0 250.9 144 L 280 144" /></g>
                     <g class="center-court-logo">
-                        <circle cx="140" cy="75" r="18" fill="var(--color-primary)" />
-                        <circle class="court-lines" cx="140" cy="75" r="18" fill="none" stroke="#212121" stroke-width="0.6"/>
-                        <text class="court-text-orb" x="140" y="76" font-family="Impact, 'Arial Black', sans-serif" font-size="15" fill="#212121" text-anchor="middle" dominant-baseline="middle" letter-spacing="0.5">ORB</text>
-                        <text class="court-text-crab" x="140" y="76" font-family="Impact, 'Arial Black', sans-serif" font-size="15" fill="#212121" text-anchor="middle" dominant-baseline="middle" letter-spacing="0.5">CRAB</text>
+                        <circle cx="140" cy="75" r="18" fill="var(--color-court-bg)" />
+                        <circle class="court-lines" cx="140" cy="75" r="18" fill="none" stroke="var(--color-primary)" stroke-width="0.6"/>
+                        <text class="court-text-orb" x="140" y="76" font-family="Impact, 'Arial Black', sans-serif" font-size="15" fill="var(--color-primary)" text-anchor="middle" dominant-baseline="middle" letter-spacing="0.5">ORB</text>
+                        <text class="court-text-crab" x="140" y="76" font-family="Impact, 'Arial Black', sans-serif" font-size="15" fill="var(--color-primary)" text-anchor="middle" dominant-baseline="middle" letter-spacing="0.5">CRAB</text>
                     </g>
-                    <g class="court-lines" stroke="#212121" fill="none"><g transform="translate(15.75, 75)"><line x1="-3.75" y1="-9" x2="-3.75" y2="9" stroke-width="0.8"/><circle cx="0" cy="0" r="2.25" stroke-width="0.5"/><path d="M 0 -12.5 A 12.5 12.5 0 0 1 0 12.5" stroke-width="0.6"/></g><g transform="translate(264.25, 75)"><line x1="3.75" y1="-9" x2="3.75" y2="9" stroke-width="0.8"/><circle cx="0" cy="0" r="2.25" stroke-width="0.5"/><path d="M 0 -12.5 A 12.5 12.5 0 0 0 0 12.5" stroke-width="0.6"/></g></g>
+                    <g class="court-lines" stroke="var(--color-primary)" fill="none"><g transform="translate(15.75, 75)"><line x1="-3.75" y1="-9" x2="-3.75" y2="9" stroke-width="0.8"/><circle cx="0" cy="0" r="2.25" stroke-width="0.5"/><path d="M 0 -12.5 A 12.5 12.5 0 0 1 0 12.5" stroke-width="0.6"/></g><g transform="translate(264.25, 75)"><line x1="3.75" y1="-9" x2="3.75" y2="9" stroke-width="0.8"/><circle cx="0" cy="0" r="2.25" stroke-width="0.5"/><path d="M 0 -12.5 A 12.5 12.5 0 0 0 0 12.5" stroke-width="0.6"/></g></g>
                 `;
             }
         }
@@ -474,8 +474,8 @@ window.ORB.ui = {
             // });
 
             const isCrab = document.body.classList.contains('crab-mode');
-            const primaryColor = isCrab ? '#72243D' : '#BFA98D';
-            const secondaryColor = isCrab ? '#F9AB00' : '#212121';
+            const primaryColor = isCrab ? '#72243D' : '#121212';
+            const secondaryColor = isCrab ? '#F9AB00' : '#BB9243';
 
             tCtx.fillStyle = primaryColor;
             tCtx.fillRect(0, 0, finalW, finalH);
@@ -506,7 +506,7 @@ window.ORB.ui = {
             }
 
             let xml = new XMLSerializer().serializeToString(courtSvg);
-            xml = xml.replace(/var\(--color-primary\)/gi, primaryColor);
+            xml = xml.replace(/var\(--color-court-bg\)/gi, primaryColor); xml = xml.replace(/var\(--color-primary\)/gi, secondaryColor);
             if (isCrab) {
                 xml = xml.replace(/#212121/gi, secondaryColor);
             }
@@ -762,7 +762,7 @@ window.ORB.ui = {
                 for (let i = 0; i < pbState.scenes.length; i++) {
                     if (i > 0) doc.addPage();
 
-                    doc.setFillColor('#BFA98D'); doc.rect(0, 0, 297, 25, 'F');
+                    doc.setFillColor('#121212'); doc.rect(0, 0, 297, 25, 'F');
                     doc.setFont("helvetica", "bold"); doc.setFontSize(22); doc.setTextColor('#000000');
                     doc.text(playName.toUpperCase(), 148, 16, { align: "center" });
 

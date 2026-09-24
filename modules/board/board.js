@@ -1,11 +1,11 @@
-/**
+﻿/**
  * V4/modules/board/board.js
- * Cœur de l'éditeur tactique : Initialisation et gestion globale.
+ * CÅ“ur de l'Ã©diteur tactique : Initialisation et gestion globale.
  */
 
 document.addEventListener('DOMContentLoaded', async () => {
     // =========================================================
-    // 1. SÉCURITÉ ET INITIALISATION DE L'ÉTAT (window.ORB)
+    // 1. SÃ‰CURITÃ‰ ET INITIALISATION DE L'Ã‰TAT (window.ORB)
     // =========================================================
     if (!window.ORB) window.ORB = {};
     if (!window.ORB.history) window.ORB.history = [];
@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     window.ORB.ctx.scale(dpr, dpr);
 
     // =========================================================
-    // 3. LANCEMENT DES SYSTÈMES ET MODULES
+    // 3. LANCEMENT DES SYSTÃˆMES ET MODULES
     // =========================================================
     if (typeof orbDB !== 'undefined' && typeof orbDB.open === 'function') {
         try { await orbDB.open(); } catch (e) { console.error("Erreur DB:", e); }
@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     // =========================================================
-    // 4. CONNEXION AVEC LA BIBLIOTHÈQUE (Chargement & Sauvegarde)
+    // 4. CONNEXION AVEC LA BIBLIOTHÃˆQUE (Chargement & Sauvegarde)
     // =========================================================
     window.addEventListener('loadPlaybook', (e) => {
         const playbookRecord = e.detail;
@@ -65,7 +65,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 window.ORB.playbookState = JSON.parse(JSON.stringify(dataToLoad));
             }
             
-            // FORCER LE TERRAIN EXACT (Sécurité anti-cache)
+            // FORCER LE TERRAIN EXACT (SÃ©curitÃ© anti-cache)
             const savedCourtType = dataToLoad.courtType || 'full';
             window.ORB.playbookState.courtType = savedCourtType;
             
@@ -88,7 +88,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             
             if(window.ORB.ui) {
                 window.ORB.ui.updateSceneListUI();
-                // On bascule sur la scène (ce qui déclenche le dessin final)
+                // On bascule sur la scÃ¨ne (ce qui dÃ©clenche le dessin final)
                 window.ORB.ui.switchToScene(0, true);
             }
         }
@@ -172,7 +172,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (exportPdfBtn) {
         exportPdfBtn.addEventListener('click', () => {
             if (window.ORB_UTILS && window.ORB_UTILS.exportToPDF) window.ORB_UTILS.exportToPDF();
-            // L'export réel est géré dans ui.js, ce listener est un fallback
+            // L'export rÃ©el est gÃ©rÃ© dans ui.js, ce listener est un fallback
         });
     }
 
@@ -180,7 +180,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (exportVideoBtn) {
         exportVideoBtn.addEventListener('click', () => {
             if (window.ORB_UTILS && window.ORB_UTILS.exportToVideo) window.ORB_UTILS.exportToVideo();
-            // L'export réel est géré dans ui.js et animation.js
+            // L'export rÃ©el est gÃ©rÃ© dans ui.js et animation.js
         });
     }
 
@@ -210,7 +210,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     window.ORB.renderer.redrawCanvas();
                     
                     const newPreview = await window.ORB.ui.getSnapshot(false, true);
-                    const r = { id: pb.id, name: pb.name, playbookData: pb.playbookData, preview: newPreview, createdAt: pb.createdAt, tagIds: pb.tagIds, folderIds: pb.folderIds };
+                    const r = { id: pb.id, name: pb.name, playbookData: window.ORB.playbookState, preview: newPreview, createdAt: pb.createdAt, tagIds: pb.tagIds, folderIds: pb.folderIds };
                     await new Promise(res => {
                         const req = orbDB.db.transaction(['playbooks'], 'readwrite').objectStore('playbooks').put(r);
                         req.onsuccess = res;

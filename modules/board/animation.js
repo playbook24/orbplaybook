@@ -1,4 +1,4 @@
-/**
+﻿/**
  * animation.js
  * Logique d'animation (Storyboard, Tweening) et Export Vidéo.
  * (Version V4 adaptée pour le vrai demi-terrain vertical sans étirement)
@@ -230,7 +230,7 @@ window.ORB.animation = {
             const pathSlice = utils.getPathSlice(pathData.points, pathProgress);
             const pathOptions = {
                 type: pathData.type,
-                color: utils.hexToRgba(pathData.color || '#212121', alpha),
+                color: utils.hexToRgba(pathData.color || '#BB9243', alpha),
                 width: (pathData.width || 2.5),
                 noHead: pathProgress < 1,
             };
@@ -508,9 +508,9 @@ window.ORB.animation = {
 
             // --- CORRECTION TEXTE SUPERPOSÉ POUR LA VIDÉO ---
             const isCrab = document.body.classList.contains('crab-mode');
-            const colors = window.ORB.CONSTANTS ? window.ORB.CONSTANTS.COLORS : { crabPrimary: '#72243D', primary: '#BFA98D', crabSecondary: '#F9AB00', secondary: '#212121' };
-            const bgFill = isCrab ? (colors.crabPrimary || '#72243D') : (colors.primary || '#BFA98D');
-            const secondaryColor = isCrab ? (colors.crabSecondary || '#F9AB00') : (colors.secondary || '#212121');
+            const colors = window.ORB.CONSTANTS ? window.ORB.CONSTANTS.COLORS : { crabPrimary: '#72243D', primary: '#BB9243', crabSecondary: '#F9AB00', secondary: '#BB9243' };
+            const bgFill = isCrab ? (colors.crabPrimary || '#72243D') : '#121212';
+            const secondaryColor = isCrab ? (colors.crabSecondary || '#F9AB00') : (colors.secondary || '#BB9243');
 
             if (isCrab) {
                 const textOrb = courtSvg.querySelector('.court-text-orb');
@@ -530,7 +530,7 @@ window.ORB.animation = {
             let svgString = new XMLSerializer().serializeToString(courtSvg);
             
             // Correction couleurs variables CSS pour la vidéo aussi !
-            svgString = svgString.replace(/var\(--color-primary\)/gi, bgFill);
+            svgString = svgString.replace(/var\(--color-court-bg\)/gi, bgFill); svgString = svgString.replace(/var\(--color-primary\)/gi, colors.secondary || "#BB9243");
             if (isCrab) {
                 svgString = svgString.replace(/#212121/gi, secondaryColor);
             }

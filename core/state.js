@@ -1,4 +1,4 @@
-/**
+﻿/**
  * state.js
  * État global et historique. Indispensable pour le fonctionnement des outils.
  */
@@ -10,7 +10,7 @@ window.ORB = {
         DEFAULT_ANIMATION_SPEED: 50,
         DEFAULT_ANTICIPATION_RATIO: 0.3,
         MIN_SCENE_DURATION: 1000,
-        COLORS: { primary: '#BFA98D', secondary: '#212121', crabPrimary: '#72243D', crabSecondary: '#F9AB00' }
+        COLORS: { primary: '#BB9243', secondary: '#BB9243', crabPrimary: '#72243D', crabSecondary: '#F9AB00' }
     },
 
     // --- NOUVEAUTÉ V4 : Normalisation pour accepter les backups V3 ---
@@ -43,6 +43,8 @@ window.ORB = {
                 if ((el.type === 'defender' || el.type === 'player') && typeof el.rotation === 'undefined') el.rotation = 0;
                 if (el.type === 'zone' && !el.color) el.color = '#FFEB3B';
                 if (!el.id) el.id = Date.now() + Math.random(); // Assure un ID unique
+                if (el.color === '#212121') el.color = '#BB9243';
+                if (el.color === '#212121') el.color = '#BB9243';
             });
         });
 

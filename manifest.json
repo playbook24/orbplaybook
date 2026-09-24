@@ -1,11 +1,11 @@
-{
+﻿{
   "name": "ORB Tactical Board",
   "short_name": "ORB Playbook",
   "description": "Tableau tactique et gestion d'équipe de basketball hors-ligne",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#1a1a1a",
-  "theme_color": "#BFA98D",
+  "theme_color": "#BB9243",
   "orientation": "any",
   "icons": [
     {

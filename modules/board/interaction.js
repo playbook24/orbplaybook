@@ -1,6 +1,6 @@
 /**
  * interaction.js
- * Gère les entrées utilisateurs (Souris/Tactile) et tous les outils V3.
+ * GÃ¨re les entrÃ©es utilisateurs (Souris/Tactile) et tous les outils V3.
  */
 
 window.ORB.interactions = {
@@ -13,7 +13,7 @@ window.ORB.interactions = {
         window.addEventListener("mousemove", this.handleMove.bind(this));
         window.addEventListener("mouseup", this.handleEnd.bind(this));
 
-        // Tactile (On garde passive: false pour empêcher le scroll quand on dessine)
+        // Tactile (On garde passive: false pour empÃªcher le scroll quand on dessine)
         canvas.addEventListener("touchstart", this.handleStart.bind(this), { passive: false });
         window.addEventListener("touchmove", this.handleMove.bind(this), { passive: false });
         window.addEventListener("touchend", this.handleEnd.bind(this));
@@ -41,14 +41,14 @@ window.ORB.interactions = {
             clientY = e.touches[0].clientY;
         }
 
-        // On calcule directement ici pour garantir que le ratio correspond à 100% au renderer
+        // On calcule directement ici pour garantir que le ratio correspond Ã  100% au renderer
         return {
             x: ((clientX - rect.left) / rect.width) * viewWidth + viewMinX,
             y: ((clientY - rect.top) / rect.height) * viewHeight + viewMinY
         };
     },
 
-    // --- DÉBUT DE L'ACTION ---
+    // --- DÃ‰BUT DE L'ACTION ---
     handleStart: function(e) {
         if (e.type === 'touchstart') e.preventDefault();
         if (e.button === 2) return; 
@@ -107,7 +107,7 @@ window.ORB.interactions = {
                         y: logicalPos.y,
                         text: text,
                         size: 14,
-                        color: "#212121"
+                        color: '#BB9243'
                     });
                     window.ORB.commitState();
                 }
@@ -200,12 +200,12 @@ window.ORB.interactions = {
             
             const currentPos = appState.lastMousePos;
             
-            // CORRECTION V4 : Vérification de la zone de suppression selon le type de terrain
+            // CORRECTION V4 : VÃ©rification de la zone de suppression selon le type de terrain
             const isHalf = window.ORB.playbookState && window.ORB.playbookState.courtType === 'half';
             const viewWidth = isHalf ? 150 : window.ORB.CONSTANTS.LOGICAL_WIDTH;
             const viewHeight = isHalf ? 140 : window.ORB.CONSTANTS.LOGICAL_HEIGHT;
             
-            // Si on sort l'élément du terrain, on le supprime (marges de -30 / +30 pour l'espace hors terrain)
+            // Si on sort l'Ã©lÃ©ment du terrain, on le supprime (marges de -30 / +30 pour l'espace hors terrain)
             if (currentPos.x < -30 || currentPos.x > viewWidth + 30 || currentPos.y < -30 || currentPos.y > viewHeight + 30) {
                 let elements = window.ORB.playbookState.scenes[window.ORB.playbookState.activeSceneIndex].elements;
                 if (appState.selectedElement.type === 'player') {
@@ -274,13 +274,14 @@ window.ORB.interactions = {
 
     getElementAtPosition: function(logicalPoint) {
         const elements = window.ORB.playbookState.scenes[window.ORB.playbookState.activeSceneIndex].elements;
-        const CLICK_RADIUS = 15; 
+        const CLICK_RADIUS = 10; 
         const pathTools = ['arrow', 'pass', 'dribble', 'screen', 'pencil'];
         const selectionOrder = [['text'], ['ball'], ['player', 'defender'], ['cone', 'hoop', 'basket'], pathTools, ['zone']];
         
         const utils = window.ORB_UTILS || window.ORB.utils;
 
         for (const types of selectionOrder) {
+            let candidates = [];
             for (let i = elements.length - 1; i >= 0; i--) {
                 const el = elements[i];
                 if (!types.includes(el.type)) continue;
@@ -289,12 +290,20 @@ window.ORB.interactions = {
                 if (el.type === 'zone') {
                     if (logicalPoint.x >= el.x && logicalPoint.x <= el.x + el.width && logicalPoint.y >= el.y && logicalPoint.y <= el.y + el.height) return el;
                 } else if (pathTools.includes(el.type) && utils && utils.getDistanceToSegment) {
+                    let minPathDist = Infinity;
                     for (let j = 0; j < el.points.length - 1; j++) {
-                        if (utils.getDistanceToSegment(logicalPoint, el.points[j], el.points[j + 1]) < 8) return el;
+                        const d = utils.getDistanceToSegment(logicalPoint, el.points[j], el.points[j + 1]);
+                        if (d < minPathDist) minPathDist = d;
                     }
+                    if (minPathDist <= 5) candidates.push({ el: el, dist: minPathDist });
                 } else {
-                    if (Math.hypot(logicalPoint.x - el.x, logicalPoint.y - el.y) < CLICK_RADIUS) return el;
+                    const dist = Math.hypot(logicalPoint.x - el.x, logicalPoint.y - el.y);
+                    if (dist <= CLICK_RADIUS) candidates.push({ el: el, dist: dist });
                 }
+            }
+            if (candidates.length > 0) {
+                candidates.sort((a, b) => a.dist - b.dist);
+                return candidates[0].el;
             }
         }
         return null;
@@ -308,7 +317,7 @@ window.ORB.interactions = {
                 type: appState.currentTool,
                 points: appState.currentPath,
                 width: 2.5,
-                color: '#212121'
+                color: '#BB9243'
             });
             window.ORB.commitState(); 
         }

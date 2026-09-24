@@ -237,7 +237,7 @@ class ORBDatabase {
             req.onerror = e => rej(e);
         });
     }
-    async getAllPlayers() { if (!this.db) await this.open(); return new Promise(res => { this.db.transaction(['players'], 'readonly').objectStore('players').getAll().onsuccess = e => res(e.target.result); }); }
+    async getAllPlayers() { if (!this.db) await this.open(); return new Promise(res => { this.db.transaction(['players'], 'readonly').objectStore('players').getAll().onsuccess = e => { let p = e.target.result || []; p.sort((a,b) => (a.lastName||'').localeCompare(b.lastName||'')); res(p); }; }); }
     async deletePlayer(id) { if (!this.db) await this.open(); return new Promise(res => { this.db.transaction(['players'], 'readwrite').objectStore('players').delete(id).onsuccess = () => { this._triggerSync(); res(true); }; }); }
     
     // --- FICHES PDF (SHEETS) ---

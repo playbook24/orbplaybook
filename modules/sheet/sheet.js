@@ -1,4 +1,4 @@
-/**
+﻿/**
  * modules/sheet/sheet.js
  * V5 - Studio PDF avec Navigation par Dossiers
  */
@@ -447,7 +447,7 @@ const SheetStudio = {
         filtered.reverse().forEach(pb => {
             let src = ''; if (pb.preview instanceof Blob) { try { src = URL.createObjectURL(pb.preview); } catch(e){} }
             const div = document.createElement('div'); div.className = 'grid-card';
-            div.innerHTML = `${src ? `<img src="${src}">` : `<div style="height:110px; background:#BFA98D; border-radius:4px; margin-bottom:10px; display:flex; align-items:center; justify-content:center; color:#000; font-weight:bold;">Aperçu</div>`} <strong>${pb.name || 'Sans nom'}</strong>`;
+            div.innerHTML = `${src ? `<img src="${src}">` : `<div style="height:110px; background:#BB9243; border-radius:4px; margin-bottom:10px; display:flex; align-items:center; justify-content:center; color:#000; font-weight:bold;">Aperçu</div>`} <strong>${pb.name || 'Sans nom'}</strong>`;
             div.onclick = () => this.startEditor('exo', pb.id);
             this.listExo.appendChild(div);
         });
@@ -848,8 +848,8 @@ const SheetStudio = {
             const tCtx = tempC.getContext('2d');
 
             const isCrab = document.body.classList.contains('crab-mode');
-            const primaryColor = isCrab ? '#72243D' : '#BFA98D';
-            const secondaryColor = isCrab ? '#F9AB00' : '#212121';
+            const primaryColor = isCrab ? '#72243D' : '#121212';
+            const secondaryColor = isCrab ? '#F9AB00' : '#BB9243';
 
             tCtx.fillStyle = primaryColor;
             tCtx.fillRect(0, 0, drawW, drawH);

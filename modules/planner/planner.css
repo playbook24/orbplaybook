@@ -1,4 +1,4 @@
-/**
+﻿/**
  * modules/planner/planner.css
  * Thème Premium Noir & Or - Pleine page
  */
@@ -24,17 +24,17 @@
 .plan-card:hover { 
     border-color: var(--color-primary); 
     transform: translateY(-5px); 
-    box-shadow: 0 8px 25px rgba(191, 169, 141, 0.15);
+    box-shadow: 0 8px 25px rgba(187, 146, 67, 0.15);
 }
 
 .card-new-plan {
     border: 2px dashed var(--color-primary); 
     display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px;
     min-height: 180px; cursor: pointer; font-weight: bold; color: var(--color-primary); font-size: 1.1em;
-    border-radius: 12px; background: rgba(191, 169, 141, 0.05); transition: all 0.2s;
+    border-radius: 12px; background: rgba(187, 146, 67, 0.05); transition: all 0.2s;
 }
 .card-new-plan svg { width: 40px; fill: currentColor; }
-.card-new-plan:hover { background: rgba(191, 169, 141, 0.15); transform: scale(1.02); }
+.card-new-plan:hover { background: rgba(187, 146, 67, 0.15); transform: scale(1.02); }
 
 
 /* === VUE ÉDITEUR (Nouvelle Page) === */
@@ -91,7 +91,7 @@
     outline: none;
     border-color: var(--color-primary);
     background: rgba(0,0,0,0.5);
-    box-shadow: 0 0 0 3px rgba(191, 169, 141, 0.1);
+    box-shadow: 0 0 0 3px rgba(187, 146, 67, 0.1);
 }
 .search-input { margin-bottom: 20px; font-size: 1.1em; }
 
@@ -105,7 +105,7 @@
     font-size: 0.85em; cursor: pointer; transition: all 0.2s; font-family: inherit;
 }
 .tag-filter-btn:hover { 
-    border-color: var(--color-primary); background: rgba(191,169,141,0.1); 
+    border-color: var(--color-primary); background: rgba(187, 146, 67,0.1); 
 }
 .tag-filter-btn.active { 
     background: var(--color-primary); color: #000; border-color: var(--color-primary); font-weight: 600; 
@@ -129,7 +129,7 @@
 .plan-item-left { display: flex; align-items: center; gap: 15px; }
 .drag-handle { cursor: grab; font-size: 1.5em; opacity: 0.3; transition: opacity 0.2s; }
 .plan-item:hover .drag-handle { opacity: 1; color: var(--color-primary); }
-.plan-item img { height: 80px; width: 130px; object-fit: contain; background: #BFA98D; border-radius: 4px; border: 1px solid var(--color-border); transform: translateZ(0); backface-visibility: hidden; }
+.plan-item img { height: 80px; width: 130px; object-fit: contain; background: #121212; border-radius: 4px; border: 1px solid var(--color-border); transform: translateZ(0); backface-visibility: hidden; }
 
 .premium-mini-grid {
     display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 15px; overflow-y: auto; padding-right: 10px; padding-bottom: 20px;
@@ -143,10 +143,10 @@
 .selector-item:hover { 
     border-color: var(--color-primary); transform: translateY(-3px); box-shadow: 0 4px 10px rgba(0,0,0,0.3);
 }
-.selector-item img, .selector-item .preview-placeholder { width: 100%; height: 130px; object-fit: contain; border-radius: 4px; border: 1px solid var(--color-border); background: #BFA98D; margin-bottom: 10px; display:flex; align-items:center; justify-content:center; transform: translateZ(0); backface-visibility: hidden; }
+.selector-item img, .selector-item .preview-placeholder { width: 100%; height: 130px; object-fit: contain; border-radius: 4px; border: 1px solid var(--color-border); background: #121212; margin-bottom: 10px; display:flex; align-items:center; justify-content:center; transform: translateZ(0); backface-visibility: hidden; }
 .selector-item-content { display: flex; flex-direction: column; width: 100%; align-items: center; }
 .selector-item-title { font-weight: bold; color: var(--color-text); font-size: 1em; }
-.selector-item-add { font-size: 0.8em; color: var(--color-primary); margin-top: 6px; font-weight: 600; text-transform: uppercase; background: rgba(191,169,141,0.1); padding: 4px 8px; border-radius: 4px; }
+.selector-item-add { font-size: 0.8em; color: var(--color-primary); margin-top: 6px; font-weight: 600; text-transform: uppercase; background: rgba(187, 146, 67,0.1); padding: 4px 8px; border-radius: 4px; }
 /* RESPONSIVE PLANIFICATEUR */
 @media (max-width: 1024px) {
     .editor-main-layout {
