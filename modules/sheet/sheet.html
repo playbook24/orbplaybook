@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
@@ -145,7 +145,7 @@
     </div>
 
     <div id="save-sheet-modal" class="modal-overlay hidden" style="position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.8); z-index:9000; display:flex; align-items:center; justify-content:center;">
-        <div style="background:var(--color-container); padding:25px; border-radius:12px; width:450px; border:1px solid var(--color-border); max-height: 90vh; overflow-y: auto;">
+        <div style="background:var(--color-container); padding:25px; border-radius:12px; width:450px; max-width:90vw; border:1px solid var(--color-border); max-height: 90vh; overflow-y: auto;">
             <h3 style="margin-top:0; color:var(--color-primary);">Sauvegarder ce Modèle</h3>
             <input type="text" id="sheet-name-input" placeholder="Nom de la Fiche" style="width:100%; margin-bottom:15px; padding: 10px; border-radius: 6px; border: 1px solid var(--color-border); background: var(--color-background); color: var(--color-text);">
             
@@ -167,7 +167,7 @@
     </div>
 
     <div id="assign-sheet-modal" class="modal-overlay hidden" style="position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.8); z-index:9000; display:flex; align-items:center; justify-content:center;">
-        <div style="background:var(--color-container); padding:25px; border-radius:12px; width:450px; border:1px solid var(--color-border); max-height: 90vh; overflow-y: auto;">
+        <div style="background:var(--color-container); padding:25px; border-radius:12px; width:450px; max-width:90vw; border:1px solid var(--color-border); max-height: 90vh; overflow-y: auto;">
             <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--color-border); padding-bottom: 15px; margin-bottom: 20px;">
                 <h3 id="assign-sheet-title" style="margin: 0;">Classer la fiche</h3>
                 <button id="assign-sheet-close-btn" style="background: transparent; border: none; cursor: pointer; color: var(--color-text);"><svg viewBox="0 0 24 24" style="width: 24px; height: 24px; fill: currentColor;"><path d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z"/></svg></button>

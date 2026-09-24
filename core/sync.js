@@ -12,7 +12,7 @@ const ORBSync = {
     fileId: null,
     isManualLogin: false,
 
-    showConnectedIndicator: function() {
+    showConnectedIndicator: function() { return; // Removed because redundant with the Drive card
         let indicator = document.getElementById('drive-connected-indicator');
         if (!indicator) {
             indicator = document.createElement('div');

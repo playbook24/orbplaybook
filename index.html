@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
@@ -83,8 +83,8 @@
                         <span id="drive-login-text" style="color: var(--color-primary); font-size: 1.0em; font-weight: bold;">Google Drive</span>
                     </button>
                     <div id="drive-actions" style="display: none; width: 100%; margin-top: 10px; gap: 5px; flex-direction: column;">
-                        <button id="btn-drive-push" class="drive-action-btn">â†‘ Forcer l'envoi</button>
-                        <button id="btn-drive-pull" class="drive-action-btn">â†“ Restaurer</button>
+                        <button id="btn-drive-push" class="drive-action-btn">↑ Forcer l'envoi</button>
+                        <button id="btn-drive-pull" class="drive-action-btn">↓ Restaurer</button>
                     </div>
                 </div>
 
@@ -107,7 +107,7 @@
 
     <!-- Modales d'Export et d'Import -->
     <div id="export-modal" class="modal-overlay hidden" style="position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.8); z-index:9000; display:flex; align-items:center; justify-content:center;">
-        <div style="background:var(--color-container); padding:25px; border-radius:12px; width:400px; border:1px solid var(--color-border); text-align: center;">
+        <div style="background:var(--color-container); padding:25px; border-radius:12px; width:400px; max-width:90vw; border:1px solid var(--color-border); text-align: center;">
             <h3 style="margin-top:0; color:var(--color-primary);">Options d'Exportation</h3>
             <div style="display:flex; flex-direction:column; gap:10px; margin-top:20px;">
                 <button id="export-all-btn" class="btn-primary" style="padding:10px;">Tout exporter (Sauvegarde complète)</button>
@@ -120,7 +120,7 @@
     </div>
 
     <div id="import-modal" class="modal-overlay hidden" style="position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.8); z-index:9000; display:flex; align-items:center; justify-content:center;">
-        <div style="background:var(--color-container); padding:25px; border-radius:12px; width:450px; border:1px solid var(--color-border); text-align: center;">
+        <div style="background:var(--color-container); padding:25px; border-radius:12px; width:450px; max-width:90vw; border:1px solid var(--color-border); text-align: center;">
             <h3 style="margin-top:0; color:var(--color-primary);">Mode de Restauration</h3>
             <p style="color:var(--color-text); opacity:0.8; margin-bottom:20px; font-size: 0.9em;">Que voulez-vous faire avec les données de ce fichier ?</p>
             <div style="display:flex; flex-direction:column; gap:10px;">
@@ -132,7 +132,7 @@
     </div>
 
     <div id="hub-edit-modal" class="modal-overlay hidden" style="position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.8); z-index:9000; display:flex; align-items:center; justify-content:center;">
-        <div style="background:var(--color-container); padding:25px; border-radius:12px; width:400px; border:1px solid var(--color-border); text-align: center;">
+        <div style="background:var(--color-container); padding:25px; border-radius:12px; width:400px; max-width:90vw; border:1px solid var(--color-border); text-align: center;">
             <h3 style="margin-top:0; color:var(--color-primary);">Modification Hub</h3>
             <p style="color:var(--color-text); opacity:0.8; margin-bottom:20px; font-size: 0.9em;">Sélectionnez les widgets à  afficher sur votre accueil.</p>
             

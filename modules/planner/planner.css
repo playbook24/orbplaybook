@@ -1,4 +1,4 @@
-﻿/**
+/**
  * modules/planner/planner.css
  * Thème Premium Noir & Or - Pleine page
  */
@@ -179,3 +179,18 @@
 .folder-btn-delete svg { width: 24px; height: 24px; fill: currentColor; }
 
 #btn-back-plan-folders:hover { background: var(--color-primary); color: #111; border-color: var(--color-primary); }
+
+@media (max-width: 768px) {
+    .planner-header {
+        flex-direction: column;
+        gap: 10px;
+        padding: 15px;
+    }
+    .editor-left-panel, .editor-right-panel {
+        min-height: 300px;
+    }
+    h1 {
+        font-size: 1.2em !important;
+        padding-right: 0 !important;
+    }
+}

@@ -37,3 +37,31 @@
 .danger:hover {
     background: var(--color-primary); border-color: var(--color-primary); color: #000;
 }
+
+/* RESPONSIVE - Mobile */
+@media (max-width: 768px) {
+    main {
+        padding: 0 10px !important;
+        margin: 20px auto !important;
+    }
+    .section-container {
+        padding: 15px;
+    }
+    .section-container > div:first-child {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .section-container > div:first-child h3 {
+        text-align: center;
+    }
+    .section-container > div:first-child > div {
+        justify-content: center;
+    }
+    .roster-grid {
+        grid-template-columns: 1fr !important;
+    }
+    h1 {
+        font-size: 1.2em !important;
+        padding-right: 0 !important;
+    }
+}

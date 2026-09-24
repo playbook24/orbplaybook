@@ -239,6 +239,11 @@ body.light-mode .app-header a {
     color: var(--color-text) !important;
 }
 /* RESPONSIVE GLOBAL */
+@media (max-width: 1024px) {
+    .dashboard-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
 @media (max-width: 768px) {
     .dashboard-grid {
         grid-template-columns: repeat(2, 1fr); /* 2 colonnes sur mobile */

@@ -1,4 +1,4 @@
-﻿/**
+/**
  * modules/calendar/calendar.css
  * Thème 100% Noir & Or
  */
@@ -62,4 +62,78 @@
 .form-group input, .form-group select, .form-group textarea {
     width: 100%; padding: 10px; border: 1px solid var(--color-border); border-radius: 6px;
     background: var(--color-background); color: var(--color-text);
+}
+
+/* =============================================
+   RESPONSIVE - Tablette
+   ============================================= */
+@media (max-width: 1024px) {
+    .calendar-controls {
+        flex-direction: column;
+        gap: 10px;
+        align-items: stretch;
+    }
+    .calendar-controls h2 {
+        text-align: center;
+    }
+}
+
+/* =============================================
+   RESPONSIVE - Mobile
+   ============================================= */
+@media (max-width: 768px) {
+    #calendar-grid {
+        gap: 2px;
+    }
+    .calendar-header {
+        font-size: 0.7em;
+        padding: 5px 0;
+    }
+    .calendar-day {
+        min-height: 60px;
+        padding: 4px;
+        font-size: 0.75em;
+    }
+    .day-number {
+        font-size: 0.85em;
+        margin-bottom: 2px;
+    }
+    .event-chip {
+        font-size: 0.65em;
+        padding: 2px 4px;
+        margin-top: 2px;
+    }
+    .modal-content {
+        max-width: 90vw;
+        padding: 15px;
+    }
+    .form-group input, .form-group select, .form-group textarea {
+        padding: 8px;
+    }
+}
+
+/* =============================================
+   RESPONSIVE - Petit mobile
+   ============================================= */
+@media (max-width: 480px) {
+    .calendar-controls {
+        padding: 10px;
+        margin-bottom: 10px;
+    }
+    #calendar-grid {
+        gap: 1px;
+    }
+    .calendar-day {
+        min-height: 45px;
+        padding: 2px;
+        font-size: 0.65em;
+    }
+    .day-number {
+        font-size: 0.8em;
+    }
+    .event-chip {
+        font-size: 0.6em;
+        padding: 1px 3px;
+        border-radius: 3px;
+    }
 }
