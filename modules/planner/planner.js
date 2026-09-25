@@ -1,4 +1,4 @@
-﻿/**
+/**
  * modules/planner/planner.js
  * V5 - Planificateur avec Navigation par Dossiers
  */
@@ -666,6 +666,11 @@ const PlannerModule = {
                 playbookIds: this.currentPlan.playbookIds,
                 folderIds: this.currentPlan.folderIds || (this.currentPlanFolderId !== 'ALL' && this.currentPlanFolderId ? [this.currentPlanFolderId] : [])
             };
+            
+            if (this.currentPlan.pinned) {
+                planToSave.pinned = this.currentPlan.pinned;
+                planToSave.pinnedAt = this.currentPlan.pinnedAt;
+            }
 
             await orbDB.savePlan(planToSave, this.currentPlan.id);
             this.closeEditor();
