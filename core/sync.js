@@ -5,7 +5,7 @@
 
 const ORBSync = {
     // ⚠️ REMPLACEZ CECI PAR VOTRE VRAI CLIENT ID
-    CLIENT_ID: '644339703996-3jk3jo3ih55oauvmkmt30kosf46d6a18.apps.googleusercontent.com',
+    CLIENT_ID: '671482062898-6tm9mtn2puhss94n977b46d1pmdpvjro.apps.googleusercontent.com',
     SCOPES: 'https://www.googleapis.com/auth/drive.appdata',
     tokenClient: null,
     accessToken: null,
