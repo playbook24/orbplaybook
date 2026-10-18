@@ -1,4 +1,4 @@
-﻿/**
+/**
  * core/sync.js
  * Gestion de la synchronisation avec Google Drive (appDataFolder)
  */
@@ -42,28 +42,30 @@ const ORBSync = {
         if (indicator) indicator.style.display = 'none';
     },
 
-    // 1. INJECTION AUTOMATIQUE DES OUTILS GOOGLE
+    // 1. INJECTION AUTOMATIQUE DE GOOGLE IDENTITY SERVICES (GIS)
     injectGoogleScripts: function() {
         return new Promise((resolve) => {
-            let loaded = 0;
-            const checkDone = () => { loaded++; if(loaded === 2) resolve(); };
-
-            if (typeof google === 'undefined') {
+            if (typeof google !== 'undefined' && google.accounts && google.accounts.oauth2) {
+                return resolve();
+            }
+            const existingScript = document.querySelector('script[src*="accounts.google.com/gsi/client"]');
+            if (existingScript) {
+                existingScript.addEventListener('load', () => resolve());
+                const interval = setInterval(() => {
+                    if (typeof google !== 'undefined' && google.accounts && google.accounts.oauth2) {
+                        clearInterval(interval);
+                        resolve();
+                    }
+                }, 100);
+                setTimeout(() => { clearInterval(interval); resolve(); }, 4000);
+            } else {
                 const gsi = document.createElement('script');
                 gsi.src = 'https://accounts.google.com/gsi/client';
-                gsi.async = true; gsi.defer = true;
-                gsi.onload = checkDone;
+                gsi.async = true;
+                gsi.defer = true;
+                gsi.onload = () => resolve();
                 document.head.appendChild(gsi);
-            } else { loaded++; }
-
-            if (typeof gapi === 'undefined') {
-                const gapiScript = document.createElement('script');
-                gapiScript.src = 'https://apis.google.com/js/api.js';
-                gapiScript.onload = checkDone;
-                document.head.appendChild(gapiScript);
-            } else { loaded++; }
-
-            if(loaded === 2) resolve();
+            }
         });
     },
 
@@ -105,32 +107,27 @@ const ORBSync = {
     init: async function() {
         await this.injectGoogleScripts();
 
-        this.tokenClient = google.accounts.oauth2.initTokenClient({
-            client_id: this.CLIENT_ID,
-            scope: this.SCOPES,
-            callback: (tokenResponse) => {
-                if (tokenResponse && tokenResponse.access_token) {
-                    this.accessToken = tokenResponse.access_token;
-                    sessionStorage.setItem('orb_drive_token', this.accessToken);
-                    this.onLoginSuccess();
-                }
-            },
-        });
+        if (typeof google !== 'undefined' && google.accounts && google.accounts.oauth2) {
+            this.tokenClient = google.accounts.oauth2.initTokenClient({
+                client_id: this.CLIENT_ID,
+                scope: this.SCOPES,
+                callback: (tokenResponse) => {
+                    if (tokenResponse && tokenResponse.access_token) {
+                        this.accessToken = tokenResponse.access_token;
+                        sessionStorage.setItem('orb_drive_token', this.accessToken);
+                        this.onLoginSuccess();
+                    } else if (tokenResponse && tokenResponse.error) {
+                        console.error("Erreur d'authentification Google:", tokenResponse.error);
+                    }
+                },
+            });
+        }
 
         const savedToken = sessionStorage.getItem('orb_drive_token');
         if (savedToken) {
             this.accessToken = savedToken;
+            this.onLoginSuccess();
         }
-
-        gapi.load('client', () => {
-            gapi.client.init({}).then(() => {
-                gapi.client.load('drive', 'v3').then(() => {
-                    if (this.accessToken) {
-                        this.onLoginSuccess();
-                    }
-                });
-            });
-        });
 
         this.bindUI();
     },
@@ -144,7 +141,27 @@ const ORBSync = {
             loginBtn.onclick = () => {
                 if (!this.accessToken) {
                     this.isManualLogin = true;
-                    this.tokenClient.requestAccessToken();
+                    if (!this.tokenClient && typeof google !== 'undefined' && google.accounts && google.accounts.oauth2) {
+                        this.tokenClient = google.accounts.oauth2.initTokenClient({
+                            client_id: this.CLIENT_ID,
+                            scope: this.SCOPES,
+                            callback: (tokenResponse) => {
+                                if (tokenResponse && tokenResponse.access_token) {
+                                    this.accessToken = tokenResponse.access_token;
+                                    sessionStorage.setItem('orb_drive_token', this.accessToken);
+                                    this.onLoginSuccess();
+                                } else if (tokenResponse && tokenResponse.error) {
+                                    console.error("Erreur d'authentification Google:", tokenResponse.error);
+                                }
+                            },
+                        });
+                    }
+                    if (this.tokenClient) {
+                        this.tokenClient.requestAccessToken();
+                    } else {
+                        console.error("Google Identity Services non disponible.");
+                        alert("Le service d'authentification Google n'est pas encore prêt. Veuillez réessayer dans un instant.");
+                    }
                 } else {
                     this.logout();
                 }
@@ -182,6 +199,13 @@ const ORBSync = {
     },
 
     logout: function() {
+        if (this.accessToken && typeof google !== 'undefined' && google.accounts && google.accounts.oauth2) {
+            try {
+                google.accounts.oauth2.revoke(this.accessToken, () => {});
+            } catch (e) {
+                console.warn("Erreur lors de la révocation du token:", e);
+            }
+        }
         this.accessToken = null;
         this.fileId = null;
         sessionStorage.removeItem('orb_drive_token');
@@ -195,33 +219,63 @@ const ORBSync = {
     },
 
     findOrCreateBackupFile: async function() {
+        if (!this.accessToken) return null;
         try {
-            gapi.client.setToken({ access_token: this.accessToken });
-            const response = await gapi.client.drive.files.list({
-                spaces: 'appDataFolder',
-                fields: 'nextPageToken, files(id, name)',
-                pageSize: 10
+            const listUrl = 'https://www.googleapis.com/drive/v3/files?spaces=appDataFolder&fields=nextPageToken,files(id,name)&pageSize=10';
+            const response = await fetch(listUrl, {
+                method: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + this.accessToken
+                }
             });
 
-            const files = response.result.files;
+            if (response.status === 401 || response.status === 403) {
+                console.error(`Erreur d'authentification Drive API (${response.status})`);
+                this.logout();
+                return null;
+            }
+
+            if (!response.ok) {
+                throw new Error(`Drive API list failed: ${response.status} ${response.statusText}`);
+            }
+
+            const data = await response.json();
+            const files = data.files;
+
             if (files && files.length > 0) {
                 this.fileId = files[0].id;
             } else {
+                const createUrl = 'https://www.googleapis.com/drive/v3/files';
                 const fileMetadata = {
-                    'name': 'orb_tactical_sync.json',
-                    'parents': ['appDataFolder']
+                    name: 'orb_tactical_sync.json',
+                    parents: ['appDataFolder']
                 };
-                const file = await gapi.client.drive.files.create({
-                    resource: fileMetadata,
-                    fields: 'id'
+                const createResponse = await fetch(createUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': 'Bearer ' + this.accessToken,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(fileMetadata)
                 });
-                this.fileId = file.result.id;
+
+                if (createResponse.status === 401 || createResponse.status === 403) {
+                    console.error(`Erreur création fichier Drive API (${createResponse.status})`);
+                    this.logout();
+                    return null;
+                }
+
+                if (!createResponse.ok) {
+                    throw new Error(`Drive API create failed: ${createResponse.status} ${createResponse.statusText}`);
+                }
+
+                const createdFile = await createResponse.json();
+                this.fileId = createdFile.id;
             }
+            return this.fileId;
         } catch (err) {
             console.error("Erreur Drive API:", err);
-            if (err.status === 401 || err.status === 403) {
-                this.logout();
-            }
+            return null;
         }
     },
 
@@ -251,14 +305,25 @@ const ORBSync = {
                 sheetFolders: await orbDB.getAllSheetFolders()
             };
 
-            await fetch(`https://www.googleapis.com/upload/drive/v3/files/${this.fileId}?uploadType=media`, {
+            const uploadResponse = await fetch(`https://www.googleapis.com/upload/drive/v3/files/${this.fileId}?uploadType=media`, {
                 method: 'PATCH',
-                headers: new Headers({ 
+                headers: { 
                     'Authorization': 'Bearer ' + this.accessToken,
                     'Content-Type': 'application/json'
-                }),
+                },
                 body: JSON.stringify(backupData)
             });
+
+            if (uploadResponse.status === 401 || uploadResponse.status === 403) {
+                console.error(`Erreur d'authentification Drive API (${uploadResponse.status})`);
+                this.logout();
+                this.showToast("Session expirée, veuillez vous reconnecter");
+                return false;
+            }
+
+            if (!uploadResponse.ok) {
+                throw new Error(`Upload failed: ${uploadResponse.status} ${uploadResponse.statusText}`);
+            }
             
             this.showToast("Sauvegardé sur Drive !", true);
             
@@ -294,12 +359,25 @@ const ORBSync = {
         try {
             this.showToast("Téléchargement...");
 
-            const response = await gapi.client.drive.files.get({
-                fileId: this.fileId,
-                alt: 'media'
+            const downloadResponse = await fetch(`https://www.googleapis.com/drive/v3/files/${this.fileId}?alt=media`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + this.accessToken
+                }
             });
 
-            const data = response.result;
+            if (downloadResponse.status === 401 || downloadResponse.status === 403) {
+                console.error(`Erreur d'authentification Drive API (${downloadResponse.status})`);
+                this.logout();
+                this.showToast("Session expirée, veuillez vous reconnecter");
+                return false;
+            }
+
+            if (!downloadResponse.ok) {
+                throw new Error(`Download failed: ${downloadResponse.status} ${downloadResponse.statusText}`);
+            }
+
+            const data = await downloadResponse.json();
             
             if (data && typeof data === 'object') {
                 // 🟢 NOUVEAU : Ajout de "folders" dans la transaction de restauration
